@@ -1,2 +1,2 @@
-# college_project
-this is our mmdu college project
+# Mess Project
+this is our mmdu college MESS project

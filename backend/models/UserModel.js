@@ -32,6 +32,24 @@ const UserSchema = new mongoose.Schema({
       required: true,
     },
   },
+  posts:[
+    {
+      type:mongoose.Schema.Types.ObjectId,
+      ref:"Post"
+    }
+  ],
+  followers:[
+    {
+      type:mongoose.Schema.Types.ObjectId,
+      ref:"User"
+    }
+  ],
+  following :[
+    {
+      type:mongoose.Schema.Types.ObjectId,
+      ref:"User"
+    }
+  ],
   role: {
     type: String,
     default: "user",
@@ -64,7 +82,7 @@ UserSchema.methods.generateResetPasswordToken =function(){
     const resetToken=crypto.randomBytes(32).toString("hex");
 
     this.resetPasswordToken=crypto.createHash("sha256").update(resetToken).digest("hex")
-    this.resetPasswordExpire=Date.now()+10*60*1000
+    this.resetPasswordExpire=Date.now()+1*60*60*1000
     return resetToken;
 }
 

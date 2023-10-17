@@ -1,21 +1,40 @@
-const User = require("../Models/UserModel");
+const { sendEmail } = require("../middlewares/sendEmail");
+const cloudinary =require("cloudinary")
+const User =require("../models/UserModel.js")
 
 exports.registerUser = async (req, res) => {
   try {
     const { name, email, password, avatar } = req.body;
-    const user = await User.create({
+    if(!name || !email || !password ||avatar){
+      return res.status(400).json({
+        success:false,
+        message:"All fields are required"
+      })
+    }
+    const mycloud=await cloudinary.v2.uploader.upload(avatar,{
+      folder:"avatars"
+    })
+    let user = await User.findOne({ email: req.body.email });
+    if (user) {
+      return res.status(500).json({
+        success: false,
+        message: "User Already Exists",
+      });
+    }
+    user = await User.create({
       name,
       email,
       password,
       avatar: {
-        public_id: "mycloud.public_id",
-        url: "Mycloud.secure_url",
+        public_id: mycloud.public_id,
+        url: mycloud.secure_url,
       },
     });
     const token = user.generateToken();
     const options = {
-      expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+      expires: new Date(Date.now() + 9 * 24 * 60 * 60 * 1000),
       httpOnly: true,
+      secure: true,
     };
     res.status(200).cookie("token", token, options).json({
       success: true,
@@ -24,7 +43,7 @@ exports.registerUser = async (req, res) => {
       token,
     });
   } catch (error) {
-    // console.log(error);
+    console.log(error);
     return res.status(500).json({
       success: false,
       message: error.message,
@@ -86,11 +105,85 @@ exports.logoutUser = async (req, res) => {
   }
 };
 
+exports.followUser = async (req,res) => {
+  try {
+    const loggedInUser = await User.findById(req.user._id)
+    const userToFollow = await User.findById(req.params.id)
+    if(!userToFollow){
+      return res.status(404).json({
+        success:false,
+        message:"User not found"
+      })
+    }
+
+    const isFollowing=loggedInUser.following.includes(userToFollow._id);
+
+    if(isFollowing){
+      //unfollow
+      loggedInUser.following.pull(userToFollow._id);
+      userToFollow.followers.pull(loggedInUser._id);
+    }
+    else{
+      //start following
+      loggedInUser.following.unshift(userToFollow._id);
+      userToFollow.followers.unshift(loggedInUser._id);
+    }
+
+    await loggedInUser.save();
+    await userToFollow.save();
+    res.status(200).json({
+      success:true,
+      message:`you ${isFollowing ? "UnFollow ":"Started Following "} ${userToFollow.name}`
+    })
+  } catch (error) {
+    res.status(500).json({
+      success:false,
+      message:error.message
+    })
+  }
+}
+
+//Admin
+exports.getAllUsers =async (req,res) =>{
+  try {
+    const users= await User.find();
+    res.status(200).json({
+      success:true,
+      users
+    })
+  } catch (error) {
+    res.status(500).json({
+      success:false,
+      message:error.message
+    })
+  }
+}
+
+exports.getUserDetails = async (req,res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if(!user){
+      return res.status(404).json({
+        success:false,
+        message:"User not found"
+      })
+    }
+    res.status(200).json({
+      success:true,
+      user
+    })
+  } catch (error) {
+    res.status(500).json({
+      success:false,
+      message :error.message
+    })
+  }
+}
+
 exports.updatePassword = async (req, res) => {
   try {
     const { oldPassword, newPassword } = req.body;
     const user = await User.findById(req.user._id).select("+password");
-    console.log("user is ", user);
     const isPasswordMatch = await user.matchPassword(oldPassword);
     if (!isPasswordMatch) {
       return res.status(404).json({
@@ -142,6 +235,28 @@ exports.updateProfile = async (req, res) => {
   }
 };
 
+//Admin UpdateRole
+exports.updateRole =async (req,res) => {
+  try {
+    const updatedUser =await User.findByIdAndUpdate(req.params.id,{role:"admin"},{new:true});
+    if(!updatedUser){
+      return res.status(404).json({
+        success:false,
+        message:"User not found"
+      })
+    }
+    res.status(200).json({
+      success:true,
+      message:`${updatedUser.name} is now Admin`
+    })
+  } catch (error) {
+    res.status(500).json({
+      success:false,
+      message:error.message
+    })
+  }
+}
+
 exports.forgotPassword = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
@@ -166,7 +281,7 @@ exports.forgotPassword = async (req, res) => {
         subject: `Reset password`,
         message,
       });
-      res.stauts(200).json({
+      res.status(200).json({
         success: true,
         message: `Email sent to ${user.email}`,
       });
@@ -186,3 +301,48 @@ exports.forgotPassword = async (req, res) => {
     });
   }
 };
+
+exports.resetPassword = async (req, res) => {
+  const token = req.params.token;
+  const { newPassword, confirmPassword } = req.body;
+  if (newPassword !== confirmPassword) {
+    return res.status(400).json({
+      success: false,
+      message: "Password doesnot match",
+    });
+  }
+  try {
+    const resetToken = await User.findOne({ resetPasswordToken: token });
+    if (!resetToken) {
+      return res.status(404).json({
+        success: false,
+        message: "Token Invalid",
+      });
+    }
+    if (resetToken.expires < Date.now()) {
+      return res.status(400).json({
+        success: false,
+        message: "Token has been Expired. Try again",
+      });
+    }
+    const user = await User.findById(resetToken._id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+    user.password=newPassword;
+    await user.save();
+    res.status(200).json({
+      success: true,
+      message: "Password reset successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+

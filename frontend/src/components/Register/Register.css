@@ -1,0 +1,73 @@
+
+
+
+.register-form{
+    padding: 2vmax;
+    margin: auto;
+    text-align: center;
+    width: 100vw;
+    background: linear-gradient(to right, rgb(184, 72, 72), rgb(58, 167, 58), rgb(68, 68, 192));
+    overflow-x: hidden;
+}
+
+form{
+    width: 70vw;
+    background-color: rgb(206, 194, 194);
+    padding: 1vmax;
+    margin: auto;
+    overflow-x: hidden;
+}
+
+.register-form .form-group{
+    padding: 1vmax;
+}
+.register-form .form-group input{
+    padding: 1vmax;
+    padding-left: 4vmax;
+    font-size: 1.5vmax;
+    border: none;
+    font-weight: 300;
+}
+.register-form .form-group svg{
+    font-size: 3vmax;
+    position: absolute;
+    padding: 0.5vmax;
+    align-items: center;
+    font-weight: 300;
+}
+
+.register-form [type="submit"]{
+    outline: none;
+    padding: 1vmax;
+    background-color: rgb(85, 85, 226);
+    width: 30%;
+    color: white;
+    font-size: 1.5vmax;
+}
+
+.register-form [type="submit"]:hover{
+    background-color: rgb(54, 54, 214);
+}
+
+.register-info a{
+    text-decoration: none;
+}
+.register-info a :hover{
+    text-decoration: underline;
+}
+
+@media screen and (max-width:750px) {
+    .register-form .form-group input{
+        padding: 2.5vmax;
+        padding-left: 5vmax;
+        font-size: 2vmax;
+    }
+    .register-form .form-group svg{
+        font-size: 4vmax;
+        padding: 1vmax;
+    }
+    .register-form [type="submit"]{
+        padding: 2vmax;
+        font-size: 2vmax;
+    }
+}

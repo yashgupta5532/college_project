@@ -1,19 +1,25 @@
 const { sendEmail } = require("../middlewares/sendEmail");
-const cloudinary =require("cloudinary")
-const User =require("../models/UserModel.js")
+const cloudinary = require("cloudinary");
+const User = require("../models/UserModel.js");
 
 exports.registerUser = async (req, res) => {
   try {
     const { name, email, password, avatar } = req.body;
-    if(!name || !email || !password ||avatar){
+    if (!name || !email || !password || !avatar) {
       return res.status(400).json({
-        success:false,
-        message:"All fields are required"
-      })
+        success: false,
+        message: "All fields are required",
+      });
     }
-    const mycloud=await cloudinary.v2.uploader.upload(avatar,{
-      folder:"avatars"
-    })
+    if (password.length < 8) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must be atleast 8 characters",
+      });
+    }
+    const mycloud = await cloudinary.v2.uploader.upload(avatar, {
+      folder: "avatars",
+    });
     let user = await User.findOne({ email: req.body.email });
     if (user) {
       return res.status(500).json({
@@ -32,7 +38,7 @@ exports.registerUser = async (req, res) => {
     });
     const token = user.generateToken();
     const options = {
-      expires: new Date(Date.now() + 9 * 24 * 60 * 60 * 1000),
+      expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
       httpOnly: true,
       secure: true,
     };
@@ -69,15 +75,16 @@ exports.loginUser = async (req, res) => {
       });
     }
     const token = await user.generateToken();
-
     const options = {
-      expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+      expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
       httpOnly: true,
+      secure: true,
     };
     res.status(200).cookie("token", token, options).json({
       success: true,
       message: "Logged in successfully",
       token,
+      user,
     });
   } catch (error) {
     console.log(error);
@@ -105,25 +112,24 @@ exports.logoutUser = async (req, res) => {
   }
 };
 
-exports.followUser = async (req,res) => {
+exports.followUser = async (req, res) => {
   try {
-    const loggedInUser = await User.findById(req.user._id)
-    const userToFollow = await User.findById(req.params.id)
-    if(!userToFollow){
+    const loggedInUser = await User.findById(req.user._id);
+    const userToFollow = await User.findById(req.params.id);
+    if (!userToFollow) {
       return res.status(404).json({
-        success:false,
-        message:"User not found"
-      })
+        success: false,
+        message: "User not found",
+      });
     }
 
-    const isFollowing=loggedInUser.following.includes(userToFollow._id);
+    const isFollowing = loggedInUser.following.includes(userToFollow._id);
 
-    if(isFollowing){
+    if (isFollowing) {
       //unfollow
       loggedInUser.following.pull(userToFollow._id);
       userToFollow.followers.pull(loggedInUser._id);
-    }
-    else{
+    } else {
       //start following
       loggedInUser.following.unshift(userToFollow._id);
       userToFollow.followers.unshift(loggedInUser._id);
@@ -132,53 +138,70 @@ exports.followUser = async (req,res) => {
     await loggedInUser.save();
     await userToFollow.save();
     res.status(200).json({
-      success:true,
-      message:`you ${isFollowing ? "UnFollow ":"Started Following "} ${userToFollow.name}`
-    })
+      success: true,
+      message: `you ${isFollowing ? "UnFollow " : "Started Following "} ${
+        userToFollow.name
+      }`,
+    });
   } catch (error) {
     res.status(500).json({
-      success:false,
-      message:error.message
-    })
+      success: false,
+      message: error.message,
+    });
   }
-}
+};
+
+exports.getMyDetails = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 
 //Admin
-exports.getAllUsers =async (req,res) =>{
+exports.getAllUsers = async (req, res) => {
   try {
-    const users= await User.find();
+    const users = await User.find();
     res.status(200).json({
-      success:true,
-      users
-    })
+      success: true,
+      users,
+    });
   } catch (error) {
     res.status(500).json({
-      success:false,
-      message:error.message
-    })
+      success: false,
+      message: error.message,
+    });
   }
-}
+};
 
-exports.getUserDetails = async (req,res) => {
+exports.getUserDetails = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    if(!user){
+    if (!user) {
       return res.status(404).json({
-        success:false,
-        message:"User not found"
-      })
+        success: false,
+        message: "User not found",
+      });
     }
     res.status(200).json({
-      success:true,
-      user
-    })
+      success: true,
+      user,
+    });
   } catch (error) {
     res.status(500).json({
-      success:false,
-      message :error.message
-    })
+      success: false,
+      message: error.message,
+    });
   }
-}
+};
 
 exports.updatePassword = async (req, res) => {
   try {
@@ -211,7 +234,7 @@ exports.updatePassword = async (req, res) => {
 exports.updateProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
-    const { name, email, avatar } = req.body;
+    const { name, email, avatar, myStatus } = req.body;
     if (name) {
       user.name = name;
     }
@@ -220,6 +243,9 @@ exports.updateProfile = async (req, res) => {
     }
     if (avatar) {
       conole.log("we will add cloudinary later");
+    }
+    if (myStatus) {
+      user.myStatus = myStatus;
     }
     await user.save();
     res.status(200).json({
@@ -236,26 +262,30 @@ exports.updateProfile = async (req, res) => {
 };
 
 //Admin UpdateRole
-exports.updateRole =async (req,res) => {
+exports.updateRole = async (req, res) => {
   try {
-    const updatedUser =await User.findByIdAndUpdate(req.params.id,{role:"admin"},{new:true});
-    if(!updatedUser){
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      { role: "admin" },
+      { new: true }
+    );
+    if (!updatedUser) {
       return res.status(404).json({
-        success:false,
-        message:"User not found"
-      })
+        success: false,
+        message: "User not found",
+      });
     }
     res.status(200).json({
-      success:true,
-      message:`${updatedUser.name} is now Admin`
-    })
+      success: true,
+      message: `${updatedUser.name} is now Admin`,
+    });
   } catch (error) {
     res.status(500).json({
-      success:false,
-      message:error.message
-    })
+      success: false,
+      message: error.message,
+    });
   }
-}
+};
 
 exports.forgotPassword = async (req, res) => {
   try {
@@ -332,7 +362,7 @@ exports.resetPassword = async (req, res) => {
         message: "User not found",
       });
     }
-    user.password=newPassword;
+    user.password = newPassword;
     await user.save();
     res.status(200).json({
       success: true,
@@ -346,3 +376,65 @@ exports.resetPassword = async (req, res) => {
   }
 };
 
+exports.Authors = async (req, res) => {
+  try {
+    const featuredAuthors = await User.aggregate([
+      {
+        $lookup: {
+          from: "posts", // Assuming you have a 'posts' collection/table
+          localField: "_id", // User ID field
+          foreignField: "owner", // Author ID field in posts
+          as: "userPosts",
+        },
+      },
+      {
+        $unwind: "$userPosts",
+      },
+      {
+        $match: {
+          "userPosts.status": "Approved",
+        },
+      },
+      {
+        $group: {
+          _id: "$_id", // User ID
+          name: { $first: "$name" },
+          avatar: { $first: "$avatar" }, // Retrieve the avatar object
+          email: { $first: "$email" }, // Add user's email
+          myStatus: { $first: "$myStatus" }, // Add user's mystatus
+          followers: { $first: { $size: "$followers" } }, // Add followers count
+          following: { $first: { $size: "$following" } }, // Add following count
+          postCount: { $sum: 1 }, // Count approved posts
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          email: 1,
+          myStatus: 1,
+          followers: 1,
+          following: 1,
+          postCount: 1,
+          avatarUrl: "$avatar.url", // Extract avatar URL from the avatar object
+        },
+      },
+      {
+        $sort: { postCount: -1 }, // Sort users by postCount in descending order
+      },
+      {
+        $limit: 10, // Select the top 10 users
+      },
+    ]);
+
+    res.status(200).json({
+      success: true,
+      featuredAuthors,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};

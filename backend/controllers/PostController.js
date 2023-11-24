@@ -1,15 +1,19 @@
 const Post = require("../models/PostModel");
 const User = require("../models/UserModel");
+const cloudinary = require("cloudinary");
 
 exports.createPost = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
-    const { title, description } = req.body;
+    const { title, description, images } = req.body;
+    const myCloud = await cloudinary.v2.uploader.upload(images, {
+      folder: "avatars",
+    });
     const postData = {
       title,
       images: {
-        public_id: "cloudinary.public_id",
-        url: "cloudinary.secure_url",
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
       },
       description,
       owner: req.user._id,
@@ -135,7 +139,7 @@ exports.updatePost = async (req, res) => {
         message: "you can delete only your post",
       });
     }
-    // await updatedPost.save();
+    await updatedPost.save();
     res.status(200).json({
       success: true,
       message: "Post updated successfully",
@@ -175,10 +179,62 @@ exports.deletePost = async (req, res) => {
   }
 };
 
+exports.getAllPosts = async (req, res) => {
+  try {
+    const posts = await Post.find({});
+    res.status(200).json({
+      success: true,
+      posts,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.getSinglePost = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (!post) {
+      return res.status(404).json({
+        success: false,
+        message: "Post not found",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      post,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.getMyPosts = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    const myPosts = user.posts;
+    res.status(200).json({
+      success: true,
+      myPosts,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 //admin  -->getAll Pending posts
 exports.PendingPosts = async (req, res) => {
   try {
-    const posts = await Post.find({ status: "Pending"});
+    const posts = await Post.find({ status: "Pending" });
     if (!posts) {
       return res.status(404).json({
         success: false,
@@ -272,3 +328,33 @@ exports.DeletePostAdmin = async (req, res) => {
   }
 };
 
+exports.SearchPost = async (req, res) => {
+  try {
+    const keyword = req.params.keyword;
+    const posts = await Post.find({
+      $or:[
+        {title:new RegExp(keyword,"i")},
+        {description:new RegExp(keyword,"i")}
+      ]
+    });
+    if (posts.length === 0) {
+      return res.status(404).json({
+        success: true,
+        message: "No posts found.",
+        posts: [],
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Posts found successfully.",
+      posts: posts,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error.",
+      error: error.message,
+    });
+  }
+};

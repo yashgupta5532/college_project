@@ -7,3 +7,7 @@
     width: 100vw;
     max-height: 100vh;
 }
+
+.overlay-navBar svg{
+    font-size: 3vmax;
+}

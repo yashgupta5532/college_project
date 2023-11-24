@@ -1,0 +1,85 @@
+.user-post-container{
+    border: 1px solid black;
+    max-width: 40vw;
+}
+.user-post-header{
+    display: flex;
+    background-color: orangered;
+    padding: 0.5vmax;
+}
+.user-post-header .user-avatar{
+    max-width: 5vmax;
+}
+
+
+.user-post-header .user-avatar img{
+    max-width: 5vmax;
+    border-radius: 50%;
+}
+
+.user-post-header .user-name{
+    display: flex;
+    flex-direction: column;
+    margin-left: 3vmax;
+    align-items: center;
+}
+
+.user-post-header .user-name p{
+    padding: 0 1vmax;
+    
+}
+.user-name div{
+    margin-top: -15px;
+    display: inline-flex;
+}
+.user-name > div > p{
+    font-size: small;
+}
+a{
+    text-decoration: none;
+}
+
+.posts-container .d-post{
+    display: inline-flex;
+}
+.posts-container .d-post .images{
+    /* background-color: red; */
+    
+}
+.posts-container .post-description{
+    /* background-color: green; */
+    padding: 1vmax;
+    word-wrap: break-word;
+}
+
+.posts-container .d-post .images img{
+    width: 22vw;
+    min-height: 50vh;
+
+}
+
+.posts-container .post-like-comment{
+    display: flex;
+    justify-content: space-around;
+}
+
+.posts-container .post{
+    margin: 1vmax;
+    border-radius: 15px;
+    padding: 0.5vmax 3vmax;
+    background-color: rgba(182, 211, 240, 0.761);
+    font-size: 2vmax;
+}
+.posts-container .post:hover{
+    background-color: rgba(175, 196, 217, 0.761);
+
+}
+.posts-container .post span{
+    padding: 0.5vmax;
+}
+
+.renderAllPost{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 2vmax;
+}

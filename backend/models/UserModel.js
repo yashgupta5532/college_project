@@ -50,6 +50,11 @@ const UserSchema = new mongoose.Schema({
       ref:"User"
     }
   ],
+  myStatus:{
+    type:String,
+    maxLength:[100,"status can't be greater than 100 chars"],
+    default:"Love is Life",
+  },
   role: {
     type: String,
     default: "user",

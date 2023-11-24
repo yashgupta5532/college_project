@@ -1,11 +1,31 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { ReactNavbar } from "overlay-navbar";
 import logo from "../images/logo.png";
 import SearchIcon from "@mui/icons-material/Search";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import { useDispatch, useSelector } from "react-redux";
+import { useAlert } from "react-alert";
+import { clearErrors, logout } from "../../Action/UserAction";
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const alert = useAlert();
+  const { error} = useSelector((state) => state.user);
+  const handleLogout=async()=>{
+   const response= await dispatch(logout())
+   if(response.success){
+    alert.success("Logout successfully")
+   }
+  }
+  useEffect(() => {
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
+    
+  }, [error, alert, dispatch]);
+
   const options = {
     burgerColor: "blue",
     burgerColorHover: "royalblue",
@@ -18,23 +38,24 @@ const Header = () => {
     nav1justifyContent: "space-around",
     link1Text: "Home",
     link2Text: "About us",
-    link3Text: "Contact us",
-    link4Text: "Profile",
-    link1Url: "/home",
-    link2Url: "/contact",
-    link3Url: "/aboutUs",
-    link4Url: "/profile",
+    link3Text: "Posts",
+    link4Text: "SignUp",
+    link1Url: "/",
+    link2Url: "/about",
+    link3Url: "/post",
+    link4Url: "/register",
     link1Size: "2vmax",
     link1ColorHover: "blue",
     link1Margin: "auto",
     link1Border: "1 px solid green",
     searchIcon: true,
     SearchIconElement: SearchIcon,
-    searchIconSize: "2vmax",
+    searchIconSize: "4vmax",
     searchIconColor: "black",
     cartIcon: true,
-    CartIconElement: ShoppingCartIcon,
+    CartIconElement: ExitToAppIcon,
     cartIconColor: "black",
+    cartIconSize: "4vmax",
     ProfileIconElement: AccountBoxIcon,
     profileIcon: true,
     profileIconColor: "black",
@@ -42,15 +63,18 @@ const Header = () => {
     cartIconMargin: "1vmax",
     profileIconMargin: "1vmax",
     searchIconUrl: "/search",
-    cartIconUrl: "/cart",
+    cartIconUrl: "/logout",
     profileIconUrl: "/profile",
     searchIconColorHover: "blue",
     cartIconColorHover: "blue",
     profileIconColorHover: "blue",
   };
+
   return (
     <Fragment>
-      <ReactNavbar {...options} />
+      <div className="overlay-navBar">
+        <ReactNavbar {...options} />
+      </div>
     </Fragment>
   );
 };

@@ -1,0 +1,95 @@
+.author-container{
+    margin: 2vmax;
+    margin-top: 7vmax;
+    max-width: 15vmax;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 10px gray;
+    /* border: 1px solid black; */
+    border-radius: 5px;
+    background-color: white;
+    transition: 1s;
+    align-items: center;
+    justify-content: center;
+}
+.author-container:hover{
+    transform: translateY(-.5vmax);
+    opacity: 0.5;
+}
+.author-container a{
+    text-decoration: none;
+}
+.author-container .author-image-container{
+    display: flex;
+    flex-direction: column;
+}
+.author-container .author-image-container img{
+    max-width: 5vmax;
+    text-align: center;
+    border: 1px solid rgb(148, 148, 235);
+    border-radius: 100%;
+    place-items: center;
+}
+.author-container .author-image-container .author-image{
+    align-items: center;
+    margin: auto;
+    place-items: center;
+    margin-top: 0.5vmax;
+}
+.author-container .author-image-container .author-name{
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 800;
+    text-align: center;
+}
+
+.authors-followers-container{
+    display: flex;
+}
+.author-container .authors-followers-container .vertical-line{
+    border: 1px solid rgb(42, 39, 39);
+    height: 2vmax;
+}
+.author-container .authors-followers-container .follower-post{
+   display: flex;
+   margin-top: -25px;
+   padding: 1vmax;
+}
+.author-container .authors-followers-container .follower-post p{
+    text-align: center;
+    padding: 0.25vmax;
+}
+.author-container .status{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+    padding: 1.5vmax 0.5vmax;
+}
+.author-container .status p{
+    margin-top: -3vmax;
+    text-align: center;
+    color: black;
+    font-weight: 200;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+.feature-authors-container-main{
+    display: flex;
+    flex-wrap: wrap;
+    background-color: lightgray;
+    /* margin: 2vmax; */
+}
+
+
+@media screen and (max-width: 800px) {
+    .author-container .authors-followers-container .follower-post {
+        display: flex;
+        flex-direction: column;
+        margin: 0px;
+        padding: 3px;
+    }
+    .author-container .authors-followers-container .follower-post p{
+        padding: 3px;
+        margin-top: 2px;
+    }
+}

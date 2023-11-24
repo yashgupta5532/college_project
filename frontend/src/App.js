@@ -3,14 +3,36 @@ import Header from "./components/Header/Header";
 import Home from "./components/Home/Home";
 import Footer from "./components/Footer/Footer";
 import Register from "./components/Register/Register";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { loadUser } from "./Action/UserAction";
+import store from "./Store";
+import Login from "./components/Login/Login";
+import CreatePost from "./components/Post/Post";
+import Profile from "./components/Profile/Profile";
+import { loadPost } from "./Action/PostAction";
+import RenderAllPosts from "./components/PostRender/RenderAllPosts";
+import Search from "./components/search/Search";
+import PostCard from "./components/PostRender/PostCard";
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    store.dispatch(loadUser());
+    store.dispatch(loadPost());
+  }, [dispatch]);
   return (
     <Router>
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/register" element={<Register/>}/>
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/post" element={<CreatePost />} />
+        <Route path="/profile" element={<Profile/>} />
+        <Route path="/allPosts" element={<RenderAllPosts/>}/>
+        <Route path="/search" element={<Search/>}/>
+        {/* <Route path="/postCard" element={<PostCard/>}/> */}
       </Routes>
       <Footer />
     </Router>

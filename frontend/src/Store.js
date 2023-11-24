@@ -1,11 +1,13 @@
-import {configureStore} from "@reduxjs/toolkit"
+import { configureStore } from "@reduxjs/toolkit";
 
-import { userReducer } from "./Reducer/UserReducer"
+import { userReducer } from "./Reducer/UserReducer";
+import { postReducer } from "./Reducer/PostReducer";
 
-const store=configureStore({
-    reducer :{
-        user:userReducer,
-    }
-})
+const store = configureStore({
+  reducer: {
+    user: userReducer,
+    post: postReducer,
+  },
+});
 
 export default store;

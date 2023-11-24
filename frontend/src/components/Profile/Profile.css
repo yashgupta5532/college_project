@@ -1,0 +1,78 @@
+.user-info{
+    padding: 5vmax;
+    display: flex;
+}
+.user-info .user-avatar img{
+    height: 20vmax;
+    border-radius: 50%;
+}
+.user-info .user-details{
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.user-info .user-details .college-info .schooling{
+    display: flex;
+    justify-content: flex-start;
+    padding: 1vmax;
+}
+.user-info .user-details .college-info .blur-text{
+    display: flex;
+    justify-content: flex-start;
+
+}
+.user-info .user-details .college-info .blur-text p{
+    text-align: center;
+    word-spacing: 2px;
+    color: gray;
+    font-weight: 400;
+    font-size: 1.5vmax;
+    margin: 0.5vmax 1vmax;
+}
+.user-info .user-details .college-info .schooling svg{
+    padding: 0 0.6vmax;
+}
+.user-info .user-details .post-info{
+    display: flex;
+    justify-content: space-between;
+}
+.user-info .user-details .post-info p{
+    text-align: center;
+    word-spacing: 2px;
+    color: gray;
+    font-weight: 400;
+    font-size: 1.5vmax;
+}
+.user-details .post-info .boxes{
+    width: 15vmax;
+    background-color: rgb(187, 198, 218);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1vmax;
+    transition: all 1s;
+}
+.user-details .post-info .boxes:hover{
+    background-color: rgb(94, 139, 222);
+    transform: translateY(-0.75vmax);
+    box-shadow: 5px 0px 10px 3px black;
+}
+.user-details .post-info .boxes img{
+    width: 5vmax;
+}
+.user-details .post-info .boxes p{
+   font-size: 1.5vmax;
+   padding:2vmax;
+}
+.user-post-container{
+    border: 1px solid black;
+    max-width: 40vw;
+    margin: 2vmax;
+}
+
+.user-posts{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 2vmax;
+}

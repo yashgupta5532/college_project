@@ -1,0 +1,31 @@
+.commentUser{
+    display: flex;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.647);
+}
+
+.commentUser a{
+    display: flex;
+    text-decoration: none;
+    color: rgb(146, 136, 136);
+    align-items: center;
+    align-self: flex-start;
+    transition: all 0.5s;
+}
+
+.commentUser img{
+    height: 4vmax;
+    width: 4vmax;
+    margin: 1vmax;
+    border-radius: 100%;
+    border: 3px solid rgb(235, 172, 149);
+}
+
+.commentUser a .name{
+    padding: 10px;
+    margin-left: 10px;
+}
+
+.commentUser a:hover{
+    transform: translateY(-10px);
+}

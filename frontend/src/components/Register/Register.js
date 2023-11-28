@@ -110,7 +110,7 @@ const Register = () => {
                 <Link to="/login">
                   <Typography>Already Signed up ? Login now</Typography>
                 </Link>
-                <Link to="/forgot/password">
+                <Link to="/password/forgot">
                   <Typography>Forgot password</Typography>
                 </Link>
               </div>

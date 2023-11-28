@@ -31,8 +31,8 @@ const PostCard = ({ user, post }) => {
   const handleLike = async () => {
     try {
       await dispatch(likeDislikePost(post?._id));
-      setIsLiked((isLiked) => !isLiked);
-      alert.success(!isLiked ? "Post Liked" : "Post Disliked");
+      setIsLiked(!isLiked);
+      alert.success(isLiked ? "Post Liked" : "Post Disliked");
     } catch (error) {
       alert.error("Failed to like/dislike post");
     }
@@ -64,7 +64,7 @@ const PostCard = ({ user, post }) => {
   return (
     <Fragment>
       <div className="user-post-container">
-        <Link to={`/${user.userId}`}>
+        <Link to={`/profile/${user.userId}`}>
           <div className="user-post-header">
             <div className="user-avatar">
               <img src={user?.avatar || profile} alt="user" />

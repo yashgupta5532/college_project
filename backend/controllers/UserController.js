@@ -60,7 +60,7 @@ exports.registerUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email }).select("+password");
+    const user = await User.findOne({ email }).select("-password");
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -153,7 +153,7 @@ exports.followUser = async (req, res) => {
 
 exports.getMyDetails = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id);
+    const user = await User.findById(req.user._id).populate("posts")
     res.status(200).json({
       success: true,
       user,

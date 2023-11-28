@@ -7,7 +7,7 @@ const AuthorCard = ({ author }) => {
   return (
     <Fragment>
       <div className="author-container">
-        <Link to={`/${author._id}`}>
+        <Link to={`profile/${author._id}`}>
           <div className="author-image-container">
             <img
               src={author.avatarUrl ? author.avatarUrl : profile}

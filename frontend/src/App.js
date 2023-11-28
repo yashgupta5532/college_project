@@ -13,7 +13,9 @@ import Profile from "./components/Profile/Profile";
 import { loadPost } from "./Action/PostAction";
 import RenderAllPosts from "./components/PostRender/RenderAllPosts";
 import Search from "./components/search/Search";
-import PostCard from "./components/PostRender/PostCard";
+import ForgotPassword from "./components/forgotPassword/ForgotPassword";
+import ResetPassword from "./components/forgotPassword/ResetPassword";
+import AdminDashboard from "./components/Admin/AdminDashboard";
 
 function App() {
   const dispatch = useDispatch();
@@ -29,10 +31,12 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/post" element={<CreatePost />} />
-        <Route path="/profile" element={<Profile/>} />
+        <Route path="/profile/:userId" element={<Profile/>} />
         <Route path="/allPosts" element={<RenderAllPosts/>}/>
         <Route path="/search" element={<Search/>}/>
-        {/* <Route path="/postCard" element={<PostCard/>}/> */}
+        <Route path="/password/forgot" element={<ForgotPassword/>}/>
+        <Route path="/password/reset" element={<ResetPassword/>}/>
+        <Route path="/admin" element={<AdminDashboard/>}/>
       </Routes>
       <Footer />
     </Router>

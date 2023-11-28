@@ -196,7 +196,7 @@ exports.getAllPosts = async (req, res) => {
 
 exports.getSinglePost = async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);
+    const post = await Post.findById(req.params.id).populate("owner")
     if (!post) {
       return res.status(404).json({
         success: false,
@@ -231,6 +231,25 @@ exports.getMyPosts = async (req, res) => {
   }
 };
 
+exports.Admin = async (req,res) =>{
+  try {
+    const posts = await Post.find({
+      status:{$in:["Pending","Approved","Rejected"]}
+    }).populate("owner")
+
+    const filteredPosts=posts.filter((post)=>post.owner !==null)
+    res.status(200).json({
+      success:true,
+      filteredPosts
+    })
+  } catch (error) {
+    res.status(500).json({
+      success:false,
+      message:error.message
+    })
+  }
+}
+
 //admin  -->getAll Pending posts
 exports.PendingPosts = async (req, res) => {
   try {
@@ -259,9 +278,9 @@ exports.RejectPost = async (req, res) => {
     const postId = req.params.id;
     const updatedPost = await Post.findByIdAndUpdate(
       postId,
-      { status: "Rejected" },
-      { new: true }
+      { status: "Rejected" }
     );
+    await updatedPost.save();
     if (!updatedPost) {
       return res.status(404).json({
         success: false,
@@ -358,3 +377,4 @@ exports.SearchPost = async (req, res) => {
     });
   }
 };
+

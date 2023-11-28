@@ -11,6 +11,7 @@ const Search = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log(keyword)
       const response = await dispatch(searchPost(keyword));
       console.log('response is', response);
   

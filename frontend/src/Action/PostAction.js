@@ -19,7 +19,10 @@ import {
   LIKE_POST_FAIL,
   COMMENT_POST_REQUEST,
   COMMENT_POST_SUCCESS,
-  COMMENT_POST_FAIL
+  COMMENT_POST_FAIL,
+  ADMIN_REQUEST,
+  ADMIN_SUCCESS,
+  ADMIN_FAIL,
 } from "../Constants/PostConstant";
 
 import axios from "axios";
@@ -37,6 +40,23 @@ export const createPost = (title, description,images) => async (dispatch) => {
     return {success:true,data}
   } catch (error) {
     dispatch({ type: CREATE_POST_FAIL, payload: error.response.data.message });
+  }
+};
+
+export const adminPosts = () => async (dispatch) => {
+  try {
+    dispatch({ type: ADMIN_REQUEST });
+    const { data } = await axios.get("/api/v1/post/admin");
+    dispatch({
+      type: ADMIN_SUCCESS,
+      payload:data.filteredPosts || [], // Ensure `data.filteredPosts` is not undefined
+    });
+    return {success:true,posts:data.filteredPosts}
+  } catch (error) {
+    dispatch({
+      type: ADMIN_FAIL,
+      payload: error.response ? error.response.data.message : 'An error occurred',
+    });
   }
 };
 
@@ -65,16 +85,21 @@ export const allPosts = () => async (dispatch) => {
 export const searchPost = (keyword) => async (dispatch) => {
   try {
     dispatch({
-      type: 'SEARCH_POST_REQUEST'});
-    const response = await axios.get(`/api/v1/search/${keyword}`);
+      type: 'SEARCH_POST_REQUEST'
+    });
+
+    const {data} = await axios.get(`/api/v1/search/${keyword}`);
+    console.log("data ",data)
+
     dispatch({
       type: 'SEARCH_POST_SUCCESS',
       payload: {
         success: true,
-        posts: response.data,
+        posts: data.posts,
       },
     });
-    return response.data; 
+
+    return { success: true, posts: data.posts }; 
   } catch (error) {
     console.error('Error searching posts:', error);
     dispatch({
@@ -84,16 +109,16 @@ export const searchPost = (keyword) => async (dispatch) => {
         error: error.message,
       },
     });
-    return { success: false, error: error.message }; 
   }
 };
+
 
 export const singlePost = (postId) => async (dispatch) =>{
   try {
     dispatch({type:SINGLE_POST_REQUEST})
     const {data} = await axios.get(`/api/v1/post/${postId}`)
     dispatch({type:SINGLE_POST_SUCCESS,payload:data})
-    return ({success:true,data})
+    return ({success:true,post:data.post})
   } catch (error) {
     dispatch({type:SINGLE_POST_FAIL,payload:error.response.data.message})
   }
@@ -123,3 +148,4 @@ export const commentOnPost = (comment, postId) => async (dispatch) => {
     dispatch({ type: COMMENT_POST_FAIL, payload: error.response.data.message });
   }
 };
+

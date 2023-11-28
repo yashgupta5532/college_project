@@ -5,7 +5,7 @@ exports.isAuthenticatedUser = async (req, res, next) => {
   try {
     const { token } = req.cookies;
     if (!token || token === "") {
-      return res.status(404).json({
+      return res.status(403).json({
         success: false,
         message: "Login first to access resources",
       });
@@ -45,7 +45,6 @@ exports.isAuthenticatedUser = async (req, res, next) => {
     });
   }
 };
-
 
 exports.hasAuthorisedRoles = (req, res, next) => {
   if (req.user.role !== "admin") {

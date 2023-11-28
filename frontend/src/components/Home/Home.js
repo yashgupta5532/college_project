@@ -15,7 +15,7 @@ const Home = () => {
     //   ) : (
         <Fragment>
           <Author />
-          <HomeSlider/>
+          {/* <HomeSlider/> */}
           <RenderAllPosts/>
         </Fragment>
       )}

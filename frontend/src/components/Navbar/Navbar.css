@@ -1,0 +1,25 @@
+.nav-container{
+    background-color: lightgray;
+}
+
+.nav-container ul{
+    display: flex;
+    margin: auto;
+    padding-top: 1vmax ;
+    place-content: center;
+}
+.nav-container ul a{
+    margin: 0px 0.5vmax;
+    text-decoration: none;
+}
+.nav-container ul li:hover{
+    background-color: rgb(138, 181, 218);
+    list-style: none;
+    border-radius: 10px;
+}
+
+@media screen and (max-width:600px) {
+    .nav-container{
+        display: none;
+    }
+}

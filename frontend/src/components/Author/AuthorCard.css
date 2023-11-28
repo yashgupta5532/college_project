@@ -1,7 +1,10 @@
 .author-container{
     margin: 2vmax;
     margin-top: 7vmax;
-    max-width: 15vmax;
+    /* width: 13vmax; */
+    width: 180px;
+    /* height: 200px; */
+    padding: 0.5vmax;
     display: flex;
     flex-direction: column;
     box-shadow: 0 0 10px gray;
@@ -12,13 +15,14 @@
     align-items: center;
     justify-content: center;
 }
+.author-container a{
+    text-decoration: none;
+}
 .author-container:hover{
     transform: translateY(-.5vmax);
     opacity: 0.5;
 }
-.author-container a{
-    text-decoration: none;
-}
+
 .author-container .author-image-container{
     display: flex;
     flex-direction: column;
@@ -44,10 +48,12 @@
 
 .authors-followers-container{
     display: flex;
+    place-content: center;
 }
 .author-container .authors-followers-container .vertical-line{
     border: 1px solid rgb(42, 39, 39);
     height: 2vmax;
+    /* margin: 2vmax; */
 }
 .author-container .authors-followers-container .follower-post{
    display: flex;

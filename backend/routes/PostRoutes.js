@@ -13,6 +13,7 @@ const {
   getSinglePost,
   getMyPosts,
   SearchPost,
+  Admin,
 } = require("../controllers/PostController");
 const {
   isAuthenticatedUser,
@@ -22,6 +23,7 @@ const {
 const router = express.Router();
 
 router.route("/createPost").post(isAuthenticatedUser, createPost);
+router.route("/admin").get(isAuthenticatedUser, hasAuthorisedRoles, Admin);
 router.route("/myposts").get(isAuthenticatedUser, getMyPosts);
 router.route("/all-posts").get(isAuthenticatedUser, getAllPosts);
 router.route("/:id").get(isAuthenticatedUser, getSinglePost);
@@ -33,12 +35,15 @@ router.route("/search/:keyword").get(SearchPost);
 router
   .route("/pending")
   .get(isAuthenticatedUser, hasAuthorisedRoles, PendingPosts);
+  
 router
   .route("/reject/:id")
   .put(isAuthenticatedUser, hasAuthorisedRoles, RejectPost);
+
 router
   .route("/approve/:id")
   .put(isAuthenticatedUser, hasAuthorisedRoles, ApprovePost);
+
 router
   .route("/delete-admin/:id")
   .delete(isAuthenticatedUser, hasAuthorisedRoles, DeletePostAdmin);

@@ -10,10 +10,15 @@ const app = express();
 //using middlewares
 app.use(
   cors({
-    origin: "http://127.0.0.1:3000",
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "DELETE", "UPDATE", "PUT"],
+    allowedHeaders: ["Content-Type", "Authorization", "sessionId"],
+    exposedHeaders: ["sessionId"],
     credentials: true,
+    preflightContinue: false,
   })
 );
+
 app.use(express.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(cookieParser());
@@ -25,4 +30,6 @@ const post = require("./routes/PostRoutes");
 //using routes
 app.use("/api/v1/user", user);
 app.use("/api/v1/post", post);
+
+
 module.exports = app;

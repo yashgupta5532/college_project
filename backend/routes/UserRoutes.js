@@ -26,8 +26,8 @@ router.route("/login").post(loginUser);
 router.route("/logout").post(logoutUser);
 router.route("/follow/:id").post(isAuthenticatedUser,followUser)
 router.route("/me").get(isAuthenticatedUser,getMyDetails);
-router.route("/getAllUsers").get(isAuthenticatedUser,hasAuthorisedRoles, getAllUsers); //Admin
 router.route("/:id").get(isAuthenticatedUser, getUserDetails); 
+router.route("/getAllUsers").get(isAuthenticatedUser,hasAuthorisedRoles, getAllUsers); //Admin
 router.route("/password/update").put(isAuthenticatedUser, updatePassword);
 router.route("/profile/update").put(isAuthenticatedUser, updateProfile);
 router.route("/password/forgot").post(forgotPassword);

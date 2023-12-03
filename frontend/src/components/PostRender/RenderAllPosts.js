@@ -19,7 +19,7 @@ const RenderAllPosts = () => {
         }
         const response = await dispatch(getUserDetails(userId));
         if (response.success) {
-          const userDetails = response.user;
+          const userDetails = response?.user;
           return userDetails;
         } else {
           console.error("Failed to fetch user details:", response.error);
@@ -38,17 +38,19 @@ const RenderAllPosts = () => {
       try {
         const response = await dispatch(allPosts());
         if (response.success) {
-          const fetchedPosts = response.posts;
-
+          const fetchedPosts = response?.posts;
+          const appovedPosts=fetchedPosts.filter((post)=>(
+            post.status ==="Approved"
+          ))
           // Fetch user details for each post owner
-          const userDetailsPromises = fetchedPosts.map((post) =>
-            fetchUserDetails(post.owner)
+          const userDetailsPromises = appovedPosts.map((post) =>
+            fetchUserDetails(post?.owner)
           );
 
           const userDetailsArray = await Promise.all(userDetailsPromises);
 
           // Map the user details to the respective posts
-          const postsWithUserDetails = fetchedPosts.map((post, index) => ({
+          const postsWithUserDetails = appovedPosts.map((post, index) => ({
             ...post,
             user: userDetailsArray[index],
           }));
@@ -71,7 +73,7 @@ const RenderAllPosts = () => {
         <Loader />
       ) : (
         <div className="renderAllPost">
-          {posts &&
+          {posts && 
             posts.map((post) => (
               <PostCard
                 key={post._id}

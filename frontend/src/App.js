@@ -16,6 +16,7 @@ import Search from "./components/search/Search";
 import ForgotPassword from "./components/forgotPassword/ForgotPassword";
 import ResetPassword from "./components/forgotPassword/ResetPassword";
 import AdminDashboard from "./components/Admin/AdminDashboard";
+import Nnavbar from "./components/Navbar/Navbar";
 
 function App() {
   const dispatch = useDispatch();
@@ -26,6 +27,7 @@ function App() {
   return (
     <Router>
       <Header />
+      {/* <Nnavbar/> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />

@@ -1,8 +1,8 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Typography } from "@mui/material";
-import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import CommentIcon from "@mui/icons-material/Comment";
 import ShareIcon from "@mui/icons-material/Share";
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import { Link } from "react-router-dom";
 import profile from "../images/profile.png";
 import postImg from "../images/posts.png";
@@ -31,13 +31,15 @@ const PostCard = ({ user, post }) => {
   const handleLike = async () => {
     try {
       await dispatch(likeDislikePost(post?._id));
+      console.log("before ", isLiked); 
       setIsLiked(!isLiked);
+      console.log("after ", isLiked); 
       alert.success(isLiked ? "Post Liked" : "Post Disliked");
     } catch (error) {
       alert.error("Failed to like/dislike post");
     }
   };
-
+  
   const handleOpenCommentDialog = () => {
     setIsCommentDialogOpen(true);
   };
@@ -80,13 +82,16 @@ const PostCard = ({ user, post }) => {
                 </p>
               </div>
             </div>
+              <div className={`status ${post?.status}`}>
+                {post?.status}
+              </div>
           </div>
         </Link>
         <div className="posts-container">
           <div className="d-post">
             <div className="images">
-              {post.images ? (
-                post.images.map((image, index) => (
+              {post?.images ? (
+                post?.images.map((image, index) => (
                   <img key={index} src={image.url} alt={`${index}`} />
                 ))
               ) : (
@@ -105,9 +110,9 @@ const PostCard = ({ user, post }) => {
               className={`post likes ${isLiked ? "liked" : ""}`}
               onClick={handleLike}
             >
-              <ThumbUpOffAltIcon
-                style={{ backgroundColor: isLiked ? "blue" : "inherit" }}
-              />
+              {
+                isLiked ?<ThumbUpIcon style={{color:'blue'}}/>:<ThumbUpIcon/>
+              }
               <span>{post?.likes ? post.likes.length : 0}</span>
             </div>
             <div className="post comments" onClick={handleOpenCommentDialog}>

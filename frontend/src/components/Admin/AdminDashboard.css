@@ -103,11 +103,18 @@
     background-color: #28a745;
     color: #fff;
     margin-bottom: 10px;
+
   }
   
   button.reject-button {
     background-color: #dc3545;
     color: #fff;
+    margin-bottom: 10px;
+  }
+  button.delete-button {
+    background-color: tomato;
+    color: #fff;
+    margin-bottom: 10px;
   }
   
   button:hover {

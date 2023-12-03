@@ -96,23 +96,30 @@ const AdminDashboard = () => {
                   >
                     Reject
                   </button>
+                  <button className="delete-button">Delete</button>
                 </>
               )}
               {post.status === "Approved" && (
-                <button
-                  className="reject-button"
-                  onClick={() => updatepostStatus(post._id, "Rejected")}
-                >
-                  Re-Reject
-                </button>
+                <>
+                  <button
+                    className="reject-button"
+                    onClick={() => updatepostStatus(post._id, "Rejected")}
+                  >
+                    Re-Reject
+                  </button>
+                  <button className="delete-button">Delete</button>
+                </>
               )}
               {post.status === "Rejected" && (
-                <button
-                  className="approve-button"
-                  onClick={() => updatepostStatus(post._id, "Approved")}
-                >
-                  Re-Approve
-                </button>
+                <>
+                  <button
+                    className="approve-button"
+                    onClick={() => updatepostStatus(post._id, "Approved")}
+                  >
+                    Re-Approve
+                  </button>
+                  <button className="delete-button">Delete</button>
+                </>
               )}
             </div>
           </li>

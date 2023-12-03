@@ -54,6 +54,7 @@ export const userReducer=(state={user:[]},action)=>{
                 name:action.payload.name,
                 email:action.payload.email,
                 password:action.payload.password,
+                role:action.payload.role,
                 posts:action.payload.posts,
                 myStatus:action.payload.myStatus,
                 followers:action.payload.followers,

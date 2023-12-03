@@ -7,6 +7,7 @@
     background-color: orangered;
     padding: 0.5vmax;
     text-decoration: none;
+    justify-content: space-around;
 }
 .user-post-header .user-avatar{
     max-width: 4vmax;
@@ -25,10 +26,33 @@
     align-items: center;
 }
 
+
 .user-post-header .user-name p{
     padding: 0 1vmax;
     
 }
+
+.user-post-header .status{
+    width: fit-content;
+    max-height: 5vh;
+    padding: 0.5vmax;
+    margin: 2vmax;
+    text-decoration: none;
+    font-weight: bolder;
+    letter-spacing: 0.25cap;
+    color: black;
+}
+.user-post-header .Approved{
+    background-color: green;
+}
+.user-post-header .Rejected{
+    background-color: red;
+}
+.user-post-header .Pending{
+    background-color: yellow;
+}
+
+
 .user-name div{
     margin-top: -15px;
     display: inline-flex;

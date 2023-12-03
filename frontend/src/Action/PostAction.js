@@ -119,6 +119,7 @@ export const singlePost = (postId) => async (dispatch) =>{
     const {data} = await axios.get(`/api/v1/post/${postId}`)
     dispatch({type:SINGLE_POST_SUCCESS,payload:data})
     return ({success:true,post:data.post})
+    // return ({success:true,data})
   } catch (error) {
     dispatch({type:SINGLE_POST_FAIL,payload:error.response.data.message})
   }

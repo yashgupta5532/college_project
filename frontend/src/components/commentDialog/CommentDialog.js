@@ -23,7 +23,7 @@ const CommentDialog = ({ open, onClose, onPostComment, comments }) => {
         }
         const response = await dispatch(getUserDetails(userId));
         if (response.success) {
-          const userDetails = response.user; 
+          const userDetails = response?.user; 
           return userDetails;
         } else {
           console.error("Failed to fetch user details:", response.error);
@@ -39,23 +39,26 @@ const CommentDialog = ({ open, onClose, onPostComment, comments }) => {
 
   useEffect(() => {
     const fetchCommentDetails = async () => {
-      const commentDetailsArray = await Promise.all(
-        comments.map(async (comment) => {
-          const userDetails = await fetchUserDetails(comment.user);
-          return {
-            userId: comment.user._id,
-            name: userDetails.name,
-            avatar: userDetails.avatar.url,
-            comment: comment.comment,
-            commentId: comment._id,
-          };
-        })
-      );
-      setCommentDetails(commentDetailsArray);
+      if (comments && comments.length > 0) {
+        const commentDetailsArray = await Promise.all(
+          comments.map(async (comment) => {
+            const userDetails = await fetchUserDetails(comment?.user);
+            return {
+              userId: comment?.user?._id,
+              name: userDetails?.name,
+              avatar: userDetails?.avatar.url,
+              comment: comment?.comment,
+              commentId: comment?._id,
+            };
+          })
+        );
+        setCommentDetails(commentDetailsArray);
+      }
     };
-
+  
     fetchCommentDetails();
   }, [comments, fetchUserDetails]);
+  
 
   const handlePostComment = () => {
     onPostComment(comment);

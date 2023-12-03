@@ -20,6 +20,7 @@ const Profile = () => {
   const [totalLikes, setTotalLikes] = useState(0);
   const [totalComments, setTotalComments] = useState(0);
 
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -40,7 +41,7 @@ const Profile = () => {
           // Calculate total likes and total comments
           let likesCount = 0;
           let commentsCount = 0;
-          postDetails.forEach((post) => {
+          postDetails && postDetails.forEach((post) => {
             likesCount += post?.likes?.length;
             commentsCount += post?.comments?.length;
           });
@@ -109,7 +110,7 @@ const Profile = () => {
       {allPosts &&
           allPosts.map((post) => (
             <PostCard
-              key={post._id}
+              key={post?._id}
               user={{
                 userId,
                 avatar: user?.avatar?.url || profile,

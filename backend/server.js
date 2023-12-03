@@ -9,12 +9,27 @@ cloudinary.config({
   api_secret: process.env.CLOUD_SECRET_KEY,
 });
 
-// cloudinary.api.resources(function(result) {
-//   console.log(result.resources);
-// });
+//uncaughtException
+process.on("uncaughtException",(err)=>{
+  console.log("handled uncaughtException (undefined)",err.message);
+  console.log('shutting down the server due to uncaught exception');
+  server.close(()=>{
+    process.exit(1);
+  })
+})
 
 connectDatabase();
-app.listen(process.env.PORT, () => {
+const server=app.listen(process.env.PORT, () => {
   console.log(`server is listening on port ${process.env.PORT}`);
 });
+
+//unhandledRejection error like mongodb uri invalid string
+
+process.on("unhandledRejection",(err)=>{
+  console.log(err.message);
+  console.log('shutting down the server due to unhandled Promise Rejection');
+  server.close(()=>{
+    process.exit(1);
+  })
+})
 

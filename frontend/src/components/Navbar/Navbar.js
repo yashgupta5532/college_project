@@ -1,11 +1,18 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./Navbar.css";
+import {useAlert} from "react-alert"
+import { logout } from "../../Action/UserAction";
 
 const Navbar = () => {
+  const alert= useAlert();
+  const dispatch=useDispatch();
   const { userId, role } = useSelector((state) => state.user);
-  console.log(userId,role)
+  const handleLogout=async()=>{
+    await dispatch(logout())
+    alert.success("Logout successfully")
+  }
 
   return (
     <Fragment>
@@ -33,6 +40,9 @@ const Navbar = () => {
           </Link>
           <Link to="/register">
             <li className="nav">Sign-Login</li>
+          </Link>
+          <Link to="/" onClick={handleLogout}>
+            <li className="nav">Logout</li>
           </Link>
         </ul>
       </div>

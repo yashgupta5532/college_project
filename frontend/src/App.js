@@ -37,7 +37,7 @@ function App() {
         <Route path="/allPosts" element={<RenderAllPosts/>}/>
         <Route path="/search" element={<Search/>}/>
         <Route path="/password/forgot" element={<ForgotPassword/>}/>
-        <Route path="/password/reset" element={<ResetPassword/>}/>
+        <Route path="/password/reset/:token" element={<ResetPassword/>}/>
         <Route path="/admin" element={<AdminDashboard/>}/>
       </Routes>
       <Footer />

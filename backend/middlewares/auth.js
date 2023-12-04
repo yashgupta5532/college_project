@@ -47,10 +47,9 @@ exports.isAuthenticatedUser = async (req, res, next) => {
 };
 
 exports.hasAuthorisedRoles = (req, res, next) => {
-  if (req.user.role ==="admin") {
+  if (req.user.role === "admin") {
     return next();
-  }
-  else{
+  } else {
     return res.status(403).json({
       success: false,
       message: `${req.user.role} is not allowed to access this resource`,

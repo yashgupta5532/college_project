@@ -4,6 +4,8 @@
 }
 .user-info .user-avatar img{
     height: 20vmax;
+    width: 20vmax;
+    border: 1.5px solid rgb(82, 78, 78);
     border-radius: 50%;
 }
 .user-info .user-details{

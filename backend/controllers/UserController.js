@@ -153,7 +153,7 @@ exports.followUser = async (req, res) => {
 
 exports.getMyDetails = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id).populate("posts")
+    const user = await User.findById(req.user._id).populate("posts");
     res.status(200).json({
       success: true,
       user,

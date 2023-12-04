@@ -7,6 +7,7 @@ import { clearErrors, login } from "../../Action/UserAction";
 import { useAlert } from "react-alert";
 import Loader from "../Loader/Loader";
 import { Link } from "react-router-dom";
+import {useNavigate} from "react-router-dom"
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -14,6 +15,7 @@ const Login = () => {
   const {error,loading,success} = useSelector((state)=>state.user)
   const dispatch=useDispatch()
   const alert =useAlert();
+  const navigate= useNavigate()
   const handleSubmit=async(e)=>{
     e.preventDefault();
     const response=await dispatch(login(email,password))
@@ -21,6 +23,7 @@ const Login = () => {
       alert.success("LoggedIn Successfully")
       setEmail("");
       setPassword("");
+      navigate("/")
     }
   }
   useEffect(()=>{

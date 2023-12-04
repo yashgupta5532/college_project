@@ -35,7 +35,7 @@ router.route("/search/:keyword").get(SearchPost);
 router
   .route("/pending")
   .get(isAuthenticatedUser, hasAuthorisedRoles, PendingPosts);
-  
+
 router
   .route("/reject/:id")
   .put(isAuthenticatedUser, hasAuthorisedRoles, RejectPost);

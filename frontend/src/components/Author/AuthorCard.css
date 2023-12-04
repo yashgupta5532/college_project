@@ -28,10 +28,11 @@
     flex-direction: column;
 }
 .author-container .author-image-container img{
-    max-width: 5vmax;
+    height: 4.5vmax;
+    width: 4.5vmax;
+    border-radius: 50%;
     text-align: center;
-    border: 1px solid rgb(148, 148, 235);
-    border-radius: 100%;
+    border: 1.5px solid rgb(148, 148, 235);
     place-items: center;
 }
 .author-container .author-image-container .author-image{

@@ -19,7 +19,7 @@ function ResetPassword() {
         return;
       }
       const response = await axios.post(`${backendUrl}/user/password/reset/${token}`, {
-        newPassword: password,
+        newPassword: password,confirmPassword:confirmPassword
       });
       alert.success(response.data.message);
     } catch (error) {

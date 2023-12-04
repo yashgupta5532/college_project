@@ -23,6 +23,15 @@ import {
   ADMIN_REQUEST,
   ADMIN_SUCCESS,
   ADMIN_FAIL,
+  REJECT_POST_REQUEST,
+  REJECT_POST_SUCCESS,
+  REJECT_POST_FAIL,
+  APPROVE_POST_REQUEST,
+APPROVE_POST_SUCCESS,
+APPROVE_POST_FAIL,
+DELETE_POST_REQUEST,
+DELETE_POST_SUCCESS,
+DELETE_POST_FAIL,
 } from "../Constants/PostConstant";
 
 export const postReducer = (state = { post: [] }, action) => {
@@ -111,3 +120,37 @@ export const postReducer = (state = { post: [] }, action) => {
       };
   }
 };
+
+export const adminReducer = (state, action) => {
+  switch (action.type) {
+    case REJECT_POST_REQUEST:
+    case APPROVE_POST_REQUEST:
+    case DELETE_POST_REQUEST:
+      return{
+        ...state,
+        loading:true,
+      }
+    case REJECT_POST_SUCCESS:
+    case APPROVE_POST_SUCCESS:
+    case DELETE_POST_SUCCESS:
+      return{
+        ...state,
+        loading:false,
+        post:action.payload
+      }
+    case REJECT_POST_FAIL:
+    case APPROVE_POST_FAIL:
+    case DELETE_POST_FAIL:
+      return{
+        ...state,
+        loading:false,
+      }
+
+    default:
+      return{
+        ...state
+      }
+  }
+};
+
+

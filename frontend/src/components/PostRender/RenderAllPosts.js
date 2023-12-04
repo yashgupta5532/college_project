@@ -39,9 +39,9 @@ const RenderAllPosts = () => {
         const response = await dispatch(allPosts());
         if (response.success) {
           const fetchedPosts = response?.posts;
-          const appovedPosts=fetchedPosts.filter((post)=>(
-            post.status ==="Approved"
-          ))
+          const appovedPosts = fetchedPosts.filter(
+            (post) => post.status === "Approved"
+          );
           // Fetch user details for each post owner
           const userDetailsPromises = appovedPosts.map((post) =>
             fetchUserDetails(post?.owner)
@@ -73,7 +73,7 @@ const RenderAllPosts = () => {
         <Loader />
       ) : (
         <div className="renderAllPost">
-          {posts && 
+          {(posts && posts.length>0) ? (
             posts.map((post) => (
               <PostCard
                 key={post._id}
@@ -85,7 +85,12 @@ const RenderAllPosts = () => {
                 }}
                 post={post}
               />
-            ))}
+            ))
+          ) : (
+            <div className="no-post">
+              <h4>No Posts yet</h4>
+            </div>
+          )}
         </div>
       )}
     </div>

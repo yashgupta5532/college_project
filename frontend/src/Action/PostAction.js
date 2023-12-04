@@ -23,6 +23,15 @@ import {
   ADMIN_REQUEST,
   ADMIN_SUCCESS,
   ADMIN_FAIL,
+  REJECT_POST_REQUEST,
+  REJECT_POST_SUCCESS,
+  REJECT_POST_FAIL,
+  APPROVE_POST_REQUEST,
+  APPROVE_POST_SUCCESS,
+  APPROVE_POST_FAIL,
+  DELETE_POST_REQUEST,
+DELETE_POST_SUCCESS,
+DELETE_POST_FAIL,
 } from "../Constants/PostConstant";
 
 import axios from "axios";
@@ -150,3 +159,32 @@ export const commentOnPost = (comment, postId) => async (dispatch) => {
   }
 };
 
+export const rejectPost = (postId) => async (dispatch) => {
+  try {
+    dispatch({type:REJECT_POST_REQUEST});
+    await axios.put(`/api/v1/post/reject/${postId}`)
+    dispatch({type:REJECT_POST_SUCCESS})
+  } catch (error) {
+    dispatch({ type: REJECT_POST_FAIL, payload: error.response.data.message });
+  }
+}
+
+export const approvePost = (postId) => async (dispatch) => {
+  try {
+    dispatch({type:APPROVE_POST_REQUEST});
+    await axios.put(`/api/v1/post/approve/${postId}`)
+    dispatch({type:APPROVE_POST_SUCCESS})
+  } catch (error) {
+    dispatch({ type: APPROVE_POST_FAIL, payload: error.response.data.message });
+  }
+}
+
+export const deletePost = (postId) => async (dispatch) => {
+  try {
+    dispatch({type:DELETE_POST_REQUEST})
+    await axios.delete(`/api/v1/post/delete-admin/${postId}`);
+    dispatch({type:DELETE_POST_SUCCESS})
+  } catch (error) {
+    dispatch({type:DELETE_POST_FAIL,message:error.response.data.message})
+  }
+}

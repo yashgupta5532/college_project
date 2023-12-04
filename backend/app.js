@@ -4,7 +4,6 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const dotenv = require("dotenv");
 dotenv.config({ path: "config/config.env" });
-const errorHandling =require("./middlewares/error")
 
 const app = express();
 

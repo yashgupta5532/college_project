@@ -3,7 +3,7 @@ import axios from "axios";
 import "./AdminDashboard.css";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { adminPosts } from "../../Action/PostAction";
+import { adminPosts, approvePost, deletePost, rejectPost } from "../../Action/PostAction";
 
 const AdminDashboard = () => {
   const [posts, setPosts] = useState([]);
@@ -13,7 +13,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await dispatch(adminPosts());
+        const response =await dispatch(adminPosts());
         if (response.success) {
           setPosts(response.posts);
         }
@@ -23,14 +23,14 @@ const AdminDashboard = () => {
     };
 
     fetchData();
-  }, []);
+  }, [dispatch]);
 
   const updatepostStatus = async (postId, newStatus) => {
     try {
       if (newStatus === "Approved") {
-        await axios.put(`${backendUrl}/post/approve/${postId}`);
+        await dispatch(approvePost(postId));
       } else if (newStatus === "Rejected") {
-        await axios.put(`${backendUrl}/post/reject/${postId}`);
+        await dispatch(rejectPost(postId))
       }
       setPosts((prevPosts) =>
         prevPosts.map((post) =>
@@ -41,6 +41,19 @@ const AdminDashboard = () => {
       console.error("Error updating post status:", error);
     }
   };
+
+  const handleDelete = async (postId)=>{
+    try {
+      await dispatch(deletePost(postId))
+      setPosts((prevPosts) =>
+       prevPosts.filter((post)=>{
+        return post._id !==postId;
+       })
+      );
+    } catch (error) {
+      console.log('error while deleting the post')
+    }
+  }
 
   return (
     <div className="admin-dashboard">
@@ -96,7 +109,7 @@ const AdminDashboard = () => {
                   >
                     Reject
                   </button>
-                  <button className="delete-button">Delete</button>
+                  <button className="delete-button" onClick={()=> handleDelete(post._id)}>Delete</button>
                 </>
               )}
               {post.status === "Approved" && (
@@ -107,7 +120,7 @@ const AdminDashboard = () => {
                   >
                     Re-Reject
                   </button>
-                  <button className="delete-button">Delete</button>
+                  <button className="delete-button" onClick={()=> handleDelete(post._id)}>Delete</button>
                 </>
               )}
               {post.status === "Rejected" && (
@@ -118,7 +131,7 @@ const AdminDashboard = () => {
                   >
                     Re-Approve
                   </button>
-                  <button className="delete-button">Delete</button>
+                  <button className="delete-button" onClick={()=> handleDelete(post._id)}>Delete</button>
                 </>
               )}
             </div>

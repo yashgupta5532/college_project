@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import ForgotPasswordContainer from "./ForgotPasswordContainer";
 import axios from "axios";
+import { useAlert } from "react-alert";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const backendUrl = process.env.REACT_APP_BACKTEND_URL;
+  const alert= useAlert();
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
     setMessage("");
@@ -18,6 +20,8 @@ const ForgotPassword = () => {
       const response = await axios.post(`${backendUrl}/user/password/forgot`, {
         email,
       });
+      // console.log(response)
+      alert.success(response.data.message)
       setMessage(response.data.message);
     } catch (error) {
       console.error("Error:", error);

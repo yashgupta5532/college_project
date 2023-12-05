@@ -9,8 +9,9 @@ import likeImg from "../images/thumb-up.png";
 import userImg from "../images/add-user.png";
 import PostCard from "../PostRender/PostCard";
 import { useParams } from "react-router-dom";
-import { getUserDetails } from "../../Action/UserAction";
+import { followUser, getUserDetails } from "../../Action/UserAction";
 import { singlePost } from "../../Action/PostAction";
+import {useAlert } from "react-alert"
 
 const Profile = () => {
   const { userId } = useParams();
@@ -19,7 +20,8 @@ const Profile = () => {
   const [allPosts, setAllPosts] = useState([]);
   const [totalLikes, setTotalLikes] = useState(0);
   const [totalComments, setTotalComments] = useState(0);
-
+  const [following,setFollowing] =useState(false);
+  const alert=useAlert();
   
   useEffect(() => {
     const fetchData = async () => {
@@ -59,6 +61,13 @@ const Profile = () => {
     }
   }, [userId, dispatch]);
 
+  const handleFollow=async()=>{
+    const response=await dispatch(followUser(userId))
+    setFollowing(!following);
+    if(response.success){
+      alert.success(response.message);
+    }
+  }
 
   return (
     <Fragment>
@@ -80,6 +89,7 @@ const Profile = () => {
               <p>{user?.followers?.length} Followers</p>
               <p>{user?.following?.length} Followers</p>
             </div>
+            <button onClick={handleFollow}>{following ? "Follow" :"UnFollow"}</button>
           </div>
           <div className="post-info">
             <div>

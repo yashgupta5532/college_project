@@ -17,6 +17,9 @@ import {
   GET_USERDETAIL_REQUEST,
   GET_USERDETAIL_SUCCESS,
   GET_USERDETAIL_FAIL,
+  FOLLOW_USER_REQUEST,
+  FOLLOW_USER_SUCCESS,
+  FOLLOW_USER_FAIL,
   CLEAR_ERRORS,
 } from "../Constants/UserConstant";
 
@@ -97,6 +100,17 @@ export const featuredAuthors=()=> async (dispatch) =>{
   }
 }
 
+export const followUser = (userId) => async (dispatch) =>{
+  try {
+    dispatch({type:FOLLOW_USER_REQUEST});
+    const {data}=await axios.post(`/api/v1/user/follow/${userId}`)
+    dispatch({type:FOLLOW_USER_SUCCESS});
+    return {success:true,message:data.message}
+  } catch (error) {
+    dispatch({type:FOLLOW_USER_FAIL,payload:error.response.data.message});
+    
+  }
+}
 
 
 export const clearErrors = () => async (dispatch) => {

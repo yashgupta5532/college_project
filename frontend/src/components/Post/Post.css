@@ -70,3 +70,12 @@
 .post-form Button:hover{
     background-color: rgb(54, 54, 214);
 }
+
+.post-form-container .updatePost-form img{
+    max-width: 15vw;
+    max-height: 15vh;
+}
+
+.updatedPost-form {
+    max-width: 30vw;
+}

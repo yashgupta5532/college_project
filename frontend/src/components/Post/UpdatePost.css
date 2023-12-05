@@ -1,0 +1,55 @@
+.update-post{
+    background-color: rgb(223, 212, 212);
+    color: black;
+    text-align: center;
+    margin: auto;
+    border-radius: 20px ;
+}
+
+.updatePost-form img{
+    max-width: 15vw;
+    max-height: 15vh;
+    border-radius: 50%;
+}
+.update-post .updatePost-form input[type="file"]{
+    place-items: center;
+}
+
+.updatePost-form input[type="file"]::-webkit-file-upload-button{
+    background-color: dodgerblue;
+    color: white;
+    max-width: 90%;
+    padding: 1.5vmax;
+    border-radius: 20px;
+    border: none;
+    font: 100 1.5vmax "Roboto",sans-serif;
+    overflow: hidden;
+}
+
+.updatePost-form .form input{
+    padding: 1vmax;
+    padding-left: 5vmax;
+    font-size: 1.5vmax;
+    font-weight: 300;
+    border-radius: 20px;
+    margin: 1.5vmax;
+  
+}
+
+.updatePost-form .form input::placeholder{
+    font-size: 1.5vmax;
+}
+
+.updatePost-form Button[type="submit"]{
+    outline: none;
+    padding: 1vmax;
+    background-color: rgb(85, 85, 226);
+    width: 30%;
+    color: white;
+    font-size: 1.5vmax;
+    margin-bottom: 1.5vmax;
+    border-radius: 20px;
+}
+.updatePost-form Button:hover{
+    background-color: rgb(54, 54, 214);
+}

@@ -27,11 +27,17 @@ import {
   REJECT_POST_SUCCESS,
   REJECT_POST_FAIL,
   APPROVE_POST_REQUEST,
-APPROVE_POST_SUCCESS,
-APPROVE_POST_FAIL,
-DELETE_POST_REQUEST,
-DELETE_POST_SUCCESS,
-DELETE_POST_FAIL,
+  APPROVE_POST_SUCCESS,
+  APPROVE_POST_FAIL,
+  DELETE_POST_REQUEST,
+  DELETE_POST_SUCCESS,
+  DELETE_POST_FAIL,
+  UPDATE_POST_REQUEST,
+  UPDATE_POST_SUCCESS,
+  UPDATE_POST_FAIL,
+  DELETE_OWN_POST_REQUEST,
+  DELETE_OWN_POST_SUCCESS,
+  DELETE_OWN_POST_FAIL,
 } from "../Constants/PostConstant";
 
 export const postReducer = (state = { post: [] }, action) => {
@@ -126,31 +132,36 @@ export const adminReducer = (state, action) => {
     case REJECT_POST_REQUEST:
     case APPROVE_POST_REQUEST:
     case DELETE_POST_REQUEST:
-      return{
+    case DELETE_OWN_POST_REQUEST:
+    case UPDATE_POST_REQUEST:
+      return {
         ...state,
-        loading:true,
-      }
+        loading: true,
+      };
     case REJECT_POST_SUCCESS:
     case APPROVE_POST_SUCCESS:
     case DELETE_POST_SUCCESS:
-      return{
+    case DELETE_OWN_POST_SUCCESS:
+    case UPDATE_POST_SUCCESS:
+      return {
         ...state,
-        loading:false,
-        post:action.payload
-      }
+        loading: false,
+        post: action.payload,
+      };
     case REJECT_POST_FAIL:
     case APPROVE_POST_FAIL:
     case DELETE_POST_FAIL:
-      return{
+    case DELETE_OWN_POST_FAIL:
+    case UPDATE_POST_FAIL:
+      return {
         ...state,
-        loading:false,
-      }
+        loading: false,
+        error:action.payload
+      };
 
     default:
-      return{
-        ...state
-      }
+      return {
+        ...state,
+      };
   }
 };
-
-

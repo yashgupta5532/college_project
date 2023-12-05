@@ -32,6 +32,9 @@ import {
   DELETE_POST_REQUEST,
 DELETE_POST_SUCCESS,
 DELETE_POST_FAIL,
+UPDATE_POST_REQUEST,
+UPDATE_POST_SUCCESS,
+UPDATE_POST_FAIL,
 } from "../Constants/PostConstant";
 
 import axios from "axios";
@@ -139,6 +142,7 @@ export const likeDislikePost = (postId) => async (dispatch) => {
     dispatch({type:LIKE_POST_REQUEST})
     const {data} = await axios.post(`/api/v1/post/like-dislike/${postId}`);
     dispatch({type:LIKE_POST_SUCCESS,payload:data})
+    return {success:true,message:data.message};
   } catch (error) {
     dispatch({type:LIKE_POST_FAIL,payload:error.response.data.message})
   }
@@ -152,8 +156,9 @@ export const commentOnPost = (comment, postId) => async (dispatch) => {
         "Content-Type": "application/json",
       },
     });
+    console.log("data is",data)
     dispatch({ type: COMMENT_POST_SUCCESS, payload: data });
-    return {success:true,data}
+    return {success:true,message:data.message};
   } catch (error) {
     dispatch({ type: COMMENT_POST_FAIL, payload: error.response.data.message });
   }
@@ -179,6 +184,7 @@ export const approvePost = (postId) => async (dispatch) => {
   }
 }
 
+//Admin
 export const deletePost = (postId) => async (dispatch) => {
   try {
     dispatch({type:DELETE_POST_REQUEST})
@@ -186,5 +192,29 @@ export const deletePost = (postId) => async (dispatch) => {
     dispatch({type:DELETE_POST_SUCCESS})
   } catch (error) {
     dispatch({type:DELETE_POST_FAIL,message:error.response.data.message})
+  }
+}
+
+//user own post
+export const deleteUserOwnPost = (postId) => async (dispatch) => {
+  try {
+    dispatch({type:DELETE_POST_REQUEST})
+    const {data}=await axios.delete(`/api/v1/post/delete/${postId}`);
+    console.log(data);
+    dispatch({type:DELETE_POST_SUCCESS})
+    return {success:true,message:data.message}
+  } catch (error) {
+    dispatch({type:DELETE_POST_FAIL,message:error.response.data.message})
+  }
+}
+export const updatePost = (updatedData,postId) => async (dispatch) => {
+  try {
+    dispatch({type:UPDATE_POST_REQUEST})
+    const {data}=await axios.put(`/api/v1/post/update-post/${postId}`,{updatedData});
+    console.log(data);
+    dispatch({type:UPDATE_POST_SUCCESS,payload:data.updatedPost})
+    return {success:true,message:data.message}
+  } catch (error) {
+    dispatch({type:UPDATE_POST_FAIL,message:error.response.data.message})
   }
 }

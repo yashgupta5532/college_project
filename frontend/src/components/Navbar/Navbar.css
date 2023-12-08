@@ -19,7 +19,7 @@
 }
 
 @media screen and (max-width:600px) {
-    .nav-container{
+    .nav-container .d-none{
         display: none;
     }
 }

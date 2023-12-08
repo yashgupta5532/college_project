@@ -1,22 +1,25 @@
 import { Avatar, Button, Typography } from "@mui/material";
-import React, { Fragment, useEffect, useState } from "react";
-import "./Register.css";
+import React, { Fragment, useState } from "react";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import EmailIcon from "@mui/icons-material/Email";
-import KeyIcon from "@mui/icons-material/Key";
-import { Link } from "react-router-dom";
-import { clearErrors, register } from "../../Action/UserAction";
+// import KeyIcon from "@mui/icons-material/Key";
+import WhatshotIcon from "@mui/icons-material/Whatshot";
+import { updateProfile } from "../../Action/UserAction";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
 import Loader from "../Loader/Loader";
 
-const Register = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [avatar, setAvatar] = useState(null);
+const UpdateProfile = () => {
+  //   const user = useSelector((state) => state.user);
+  const { loading, name, email, avatar, myStatus } = useSelector(
+    (state) => state.user
+  );
+  const [updatedName, setUpdatedName] = useState(name);
+  const [updatedEmail, setUpdatedEmail] = useState(email);
+  const [updatedAvatar, setUpdatedAvatar] = useState(avatar.url);
+  const [updatedStatus, setUpdatedStatus] = useState(myStatus);
 
-  const { error, loading} = useSelector((state) => state.user);
+  console.log(name, email, avatar, myStatus);
   const dispatch = useDispatch();
   const alert = useAlert();
   const handleAvatarChange = (e) => {
@@ -26,21 +29,22 @@ const Register = () => {
 
     Reader.onload = () => {
       if (Reader.readyState === 2) {
-        setAvatar(Reader.result);
+        setUpdatedAvatar(Reader.result);
       }
     };
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await dispatch(register(name, email, password, avatar));
-    if(response?.success){
-      alert.success("Registered successfully");
-      setName("");
-      setEmail("");
-      setPassword("");
-      setAvatar(null);
+    const response = await dispatch(
+      updateProfile(updatedName, updatedEmail, updatedAvatar, updatedStatus)
+    );
+    if (response?.success) {
+      alert.success(response.message);
+      setUpdatedName(response.user.name);
+      setUpdatedEmail(response.user.email);
+      setUpdatedAvatar(response.user.avatar.url);
+      setUpdatedStatus(response.user.myStatus);
     }
-   
   };
 
   return (
@@ -50,13 +54,13 @@ const Register = () => {
       ) : (
         <div className="register-form">
           <Typography variant="h4" style={{ textAlign: "center" }}>
-            Register....
+            Update Profile
           </Typography>
           <form onSubmit={handleSubmit}>
             <div className="register-form-container">
               <div className="form-group" style={{ margin: "auto" }}>
                 <Avatar
-                  src={avatar}
+                  src={updatedAvatar}
                   alt="user-img"
                   sx={{ height: "5vmax", width: "5vmax", margin: "auto" }}
                 />
@@ -64,7 +68,6 @@ const Register = () => {
                   type="file"
                   name="avatar"
                   accept="image/*"
-                  required
                   onChange={handleAvatarChange}
                 />
               </div>
@@ -73,47 +76,47 @@ const Register = () => {
                 <AccountBoxIcon />
                 <input
                   type="text"
-                  placeholder="Enter your name"
+                  placeholder="Update your name"
                   name="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={updatedName}
+                  onChange={(e) => setUpdatedName(e.target.value)}
                   className="register-input"
-                  required
                 />
               </div>
               <div className="form-group">
                 <EmailIcon />
                 <input
                   type="email"
-                  placeholder="Enter your Email"
+                  placeholder="Update your Email"
                   name="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={updatedEmail}
+                  onChange={(e) => setUpdatedEmail(e.target.value)}
                   className="register-input"
-                  required
                 />
               </div>
-              <div className="form-group">
+              {/* <div className="form-group">
                 <KeyIcon />
                 <input
                   type="password"
-                  placeholder="Enter your password"
+                  placeholder="Update your password"
                   name="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="register-input"
-                  required
+                />
+              </div> */}
+              <div className="form-group">
+                <WhatshotIcon />
+                <input
+                  type="text"
+                  placeholder="Update your Status"
+                  name="status"
+                  value={updatedStatus}
+                  onChange={(e) => setUpdatedStatus(e.target.value)}
+                  className="register-input"
                 />
               </div>
-              <Button type="submit">Register</Button>
-              <div className="register-info">
-                <Link to="/login">
-                  <Typography>Already Signed up ? Login now</Typography>
-                </Link>
-                <Link to="/password/forgot">
-                  <Typography>Forgot password</Typography>
-                </Link>
-              </div>
+              <Button type="submit">Update</Button>
             </div>
           </form>
         </div>
@@ -122,4 +125,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default UpdateProfile;

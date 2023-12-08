@@ -21,7 +21,7 @@ function ResetPassword() {
       const response = await axios.post(`${backendUrl}/user/password/reset/${token}`, {
         newPassword: password,confirmPassword:confirmPassword
       });
-      alert.success(response.data.message);
+      alert.success(response?.data.message);
     } catch (error) {
       alert.error(
         error.response ? error.response.data.error : "Internal server error"

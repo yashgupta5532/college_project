@@ -18,7 +18,7 @@ const RenderAllPosts = () => {
           return null;
         }
         const response = await dispatch(getUserDetails(userId));
-        if (response.success) {
+        if (response?.success) {
           const userDetails = response?.user;
           return userDetails;
         } else {
@@ -37,7 +37,7 @@ const RenderAllPosts = () => {
     const fetchData = async () => {
       try {
         const response = await dispatch(allPosts());
-        if (response.success) {
+        if (response?.success) {
           const fetchedPosts = response?.posts;
           const appovedPosts = fetchedPosts.filter(
             (post) => post.status === "Approved"

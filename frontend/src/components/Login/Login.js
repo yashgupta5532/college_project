@@ -12,29 +12,21 @@ import {useNavigate} from "react-router-dom"
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const {error,loading,success} = useSelector((state)=>state.user)
+  const {loading} = useSelector((state)=>state.user)
   const dispatch=useDispatch()
   const alert =useAlert();
   const navigate= useNavigate()
   const handleSubmit=async(e)=>{
     e.preventDefault();
     const response=await dispatch(login(email,password))
-    if(response.success){
+    if(response?.success){
       alert.success("LoggedIn Successfully")
       setEmail("");
       setPassword("");
       navigate("/")
     }
   }
-  useEffect(()=>{
-    if(error){
-        alert.error(error);
-        dispatch(clearErrors())
-    }
-    if(success){
-      alert.success("Logged In successfully")
-    }
-  },[error,alert,dispatch,success])
+ 
   return (
     <Fragment>
       {loading ? <Loader/> :<div className="register-form">

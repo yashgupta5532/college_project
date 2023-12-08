@@ -24,7 +24,7 @@ const PostCard = ({ user, post }) => {
   const { userId } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [isLiked, setIsLiked] = useState(false);
-  const [isEditPostDialogOpen,setIsEditPostDialogOpen]=useState(false);
+  const [isEditPostDialogOpen, setIsEditPostDialogOpen] = useState(false);
   // const [updatedPost, setUpdatedPost] = useState();
   const [isCommentDialogOpen, setIsCommentDialogOpen] = useState(false);
   const alert = useAlert();
@@ -48,9 +48,12 @@ const PostCard = ({ user, post }) => {
   };
   const handleDeltePost = async () => {
     try {
-      const response = await dispatch(deleteUserOwnPost(post._id));
-      if (response.success) {
-        alert.success(response.message);
+      var userResponse = window.confirm("Do you want to delete the post?");
+      if (userResponse) {
+        const response = await dispatch(deleteUserOwnPost(post._id));
+        if (response.success) {
+          alert.success(response.message);
+        }
       }
     } catch (error) {
       alert.error("Error while deleting post");
@@ -61,10 +64,9 @@ const PostCard = ({ user, post }) => {
     setIsEditPostDialogOpen(true);
   };
 
-  const handleCloseEditPostDialog =()=>{
+  const handleCloseEditPostDialog = () => {
     setIsEditPostDialogOpen(false);
-  }
-
+  };
 
   const handleOpenCommentDialog = () => {
     setIsCommentDialogOpen(true);
@@ -92,7 +94,7 @@ const PostCard = ({ user, post }) => {
     <Fragment>
       <div className="card-container">
         <div className="user-post-container">
-          {/* <Link to={`/profile/${user.userId}`}> */}
+          <Link to={`/profile/${user.userId}`}>
             <div className="user-post-header">
               <div className="user-avatar">
                 <img src={user?.avatar || profile} alt="user" />
@@ -101,8 +103,8 @@ const PostCard = ({ user, post }) => {
                 <Typography variant="h6">
                   <b>{user?.name}</b>
                 </Typography>
-                <div>
-                  <p>{user?.followers} Followers</p>
+                <div className="d-flex">
+                  <p>{`${user?.followers} Followers`}</p>
                   <p style={{ marginLeft: "5px" }}>
                     {post?.createdAt ? formatDate(post?.createdAt) : ""}
                   </p>
@@ -111,16 +113,21 @@ const PostCard = ({ user, post }) => {
               {user?.userId === userId && (
                 <>
                   <div className={`status ${post?.status}`}>{post?.status}</div>
-                  <div className="delete-post" onClick={handleDeltePost}>
-                    <DeleteIcon />
-                  </div>
-                  <div className="update-post" onClick={handleOpenEditPostDialog}>
-                    <EditIcon />
+                  <div>
+                    <div className="delete-post" onClick={handleDeltePost}>
+                      <DeleteIcon />
+                    </div>
+                    <div
+                      className="update-post"
+                      onClick={handleOpenEditPostDialog}
+                    >
+                      <EditIcon />
+                    </div>
                   </div>
                 </>
               )}
             </div>
-          {/* </Link> */}
+          </Link>
           <div className="posts-container">
             <div className="d-post">
               <div className="images">
@@ -136,7 +143,11 @@ const PostCard = ({ user, post }) => {
                 <Typography variant="h5">
                   {post?.title ? post.title : "No title"}
                 </Typography>
-                <p>{post?.description}</p>
+                {post?.description.length < 170 ? (
+                  <p>{post?.description}</p>
+                ) : (
+                  <p>{post?.description.slice(0, 170)}...</p>
+                )}
               </div>
             </div>
             <div className="post-like-comment">

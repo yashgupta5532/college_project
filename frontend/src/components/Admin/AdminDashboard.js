@@ -8,13 +8,12 @@ import { adminPosts, approvePost, deletePost, rejectPost } from "../../Action/Po
 const AdminDashboard = () => {
   const [posts, setPosts] = useState([]);
   const dispatch = useDispatch();
-  const backendUrl = process.env.REACT_APP_BACKTEND_URL;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response =await dispatch(adminPosts());
-        if (response.success) {
+        if (response?.success) {
           setPosts(response.posts);
         }
       } catch (error) {
@@ -60,7 +59,7 @@ const AdminDashboard = () => {
       <h1 style={{ textAlign: "center" }}>
         All posts (Pending/Rejected/Approved)
       </h1>
-      <Link to="/contactinfo" className="contact-info">
+      <Link to="/admin/all-contact" className="contact-info">
         Contact us info{" "}
       </Link>
       <ul>

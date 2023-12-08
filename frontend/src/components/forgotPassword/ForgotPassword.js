@@ -20,9 +20,8 @@ const ForgotPassword = () => {
       const response = await axios.post(`${backendUrl}/user/password/forgot`, {
         email,
       });
-      // console.log(response)
-      alert.success(response.data.message)
-      setMessage(response.data.message);
+      alert.success(response?.data.message)
+      setMessage(response?.data.message);
     } catch (error) {
       console.error("Error:", error);
       if (error.response && error.response.status === 404) {

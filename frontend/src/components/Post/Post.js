@@ -4,7 +4,6 @@ import "./Post.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
 import { createPost } from "../../Action/PostAction";
-import { clearErrors } from "../../Action/UserAction";
 import Loader from "../Loader/Loader";
 
 const Post = () => {
@@ -12,7 +11,7 @@ const Post = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const dispatch = useDispatch();
-  const { error, loading, success } = useSelector((state) => state.post);
+  const { loading } = useSelector((state) => state.post);
   const alert = useAlert();
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -27,21 +26,13 @@ const Post = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await dispatch(createPost(title, description, images));
-    console.log("response" ,response)
-    if (response && response.success) {
+    if (response?.success) {
       alert.success("Post created successfully");
       setTitle("");
       setDescription("");
       setImage(null);
     }
   };
-
-  // useEffect(() => {
-  //   if (error) {
-  //     alert.error(error);
-  //     dispatch(clearErrors());
-  //   }
-  // }, [error, alert, dispatch]);
 
   return (
     <Fragment>

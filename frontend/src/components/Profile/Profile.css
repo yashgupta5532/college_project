@@ -29,8 +29,8 @@
     word-spacing: 2px;
     color: gray;
     font-weight: 400;
-    font-size: 1.5vmax;
-    margin: 0.5vmax 1vmax;
+    font-size: 2vmax;
+    margin: 0.5vmax 1.5vmax;
 }
 .user-info .user-details .college-info .schooling svg{
     padding: 0 0.6vmax;
@@ -67,14 +67,29 @@
    font-size: 1.5vmax;
    padding:2vmax;
 }
-.user-post-container{
+/* .user-post-container{
     border: 1px solid black;
     max-width: 40vw;
     margin: 2vmax;
-}
+} */
 
 .user-posts{
     display: flex;
     flex-wrap: wrap;
-    margin: 2vmax;
+    margin: 1vmax;
+    margin: 0px 1vmax 0px 3vmax;
+}
+
+@media screen and (max-width: 750px) {
+    .user-info .user-details .college-info .blur-text p{
+        font-size: 3vmax;
+        margin: 1vmax 2vmax 2vmax;
+    }
+    .user-details .post-info .boxes p{
+        font-size: 2vmax;
+        padding:3vmax;
+     }
+     .user-info .user-details .post-info p{
+        font-size: 2vmax;
+    }
 }

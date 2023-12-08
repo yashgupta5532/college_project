@@ -106,7 +106,19 @@ exports.commentOnPost = async (req, res) => {
 exports.updatePost = async (req, res) => {
   try {
     const updatedData = req.body;
-    const updatedPost = await Post.findByIdAndUpdate(req.params.id, updatedData, { new: true });
+    console.log(updatedData)
+    // const newUpdatedData={
+    //   image:updatedData.title,
+    //   title:"new title",
+    //   description:"new description"
+    // }
+    const updatedPost = await Post.findByIdAndUpdate(
+      req.params.id,
+      {updatedData},
+      { new: true }
+    );
+
+    console.log(updatedPost);
     if (!updatedPost) {
       return res.status(404).json({
         success: false,
@@ -124,7 +136,7 @@ exports.updatePost = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Post updated successfully",
-      updatedPost, 
+      updatedPost,
     });
   } catch (error) {
     res.status(500).json({
@@ -136,7 +148,7 @@ exports.updatePost = async (req, res) => {
 
 exports.deletePost = async (req, res) => {
   try {
-    const postId=req.params.id
+    const postId = req.params.id;
     const post = await Post.findById(postId);
     if (!post) {
       res.status(404).json({
@@ -144,7 +156,7 @@ exports.deletePost = async (req, res) => {
         message: "Post not found",
       });
     }
-    
+
     if (post.owner.toString() !== req.user._id.toString()) {
       return res.status(403).json({
         success: false,
@@ -152,12 +164,12 @@ exports.deletePost = async (req, res) => {
       });
     }
 
-    const user= await User.findOne({posts:postId});
-    if(!user){
+    const user = await User.findOne({ posts: postId });
+    if (!user) {
       return res.status(404).json({
-        success:false,
-        message:"User not found for this post"
-      })
+        success: false,
+        message: "User not found for this post",
+      });
     }
     user.posts.pull(postId);
     await user.save();
@@ -322,7 +334,7 @@ exports.ApprovePost = async (req, res) => {
 //admin  -->Delete a post
 exports.DeletePostAdmin = async (req, res) => {
   try {
-    const postId=req.params.id
+    const postId = req.params.id;
     const post = await Post.findById(postId);
     if (!post) {
       return res.status(404).json({
@@ -331,12 +343,12 @@ exports.DeletePostAdmin = async (req, res) => {
       });
     }
 
-    const user =await User.findOne({posts:postId});
-    if(!user){
+    const user = await User.findOne({ posts: postId });
+    if (!user) {
       return res.status(404).json({
-        success:false,
-        message:"User not found with this post"
-      })
+        success: false,
+        message: "User not found with this post",
+      });
     }
     user.posts.pull(postId);
     await user.save();

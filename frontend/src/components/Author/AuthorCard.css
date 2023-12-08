@@ -81,11 +81,20 @@
 }
 
 .feature-authors-container-main{
-    display: flex;
+    /* display: flex;
     flex-wrap: wrap;
-    background-color: lightgray;
     /* margin: 2vmax; */
+    
+    background-color: lightgray;
+    display: flex;
+    flex-direction: row; 
+    overflow-x: auto; 
+    white-space: nowrap; 
 }
+.feature-authors-container-main::-webkit-scrollbar {
+    height: 1px;
+  }
+
 
 
 @media screen and (max-width: 800px) {

@@ -4,6 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import "./Navbar.css";
 import {useAlert} from "react-alert"
 import { logout } from "../../Action/UserAction";
+import HomeIcon from '@mui/icons-material/Home';
+import LogoutIcon from '@mui/icons-material/Logout';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import CallIcon from '@mui/icons-material/Call';
+import CropOriginalIcon from '@mui/icons-material/CropOriginal';
+import SearchIcon from '@mui/icons-material/Search';
+import FingerprintIcon from '@mui/icons-material/Fingerprint';
 
 const Navbar = () => {
   const alert= useAlert();
@@ -18,32 +26,37 @@ const Navbar = () => {
     <Fragment>
       <div className="nav-container">
         <ul>
-          <Link to="/">
-            <li className="nav">Home</li>
+          <Link to="/" className="d-none">
+            
+            <li className="nav"><HomeIcon/></li>
           </Link>
           {role && role === "admin" && (
             <Link to="/admin">
-              <li className="/admin">Admin</li>
+              
+              <li className="/admin"><AdminPanelSettingsIcon/>Admin</li>
             </Link>
           )}
-          <Link to="/post">
-            <li className="nav">Create Post</li>
+          <Link to="/post" className="d-none">
+            <li className="nav"><CropOriginalIcon/>Post</li>
           </Link>
-          <Link to="/search">
-            <li className="nav">Search Post</li>
+          <Link to="/search" className="d-none">
+            <li className="nav"><SearchIcon/></li>
           </Link>
-          <Link to={`/profile/${userId}`}>
-            <li className="nav">Profile</li>
+          <Link to={`/profile/${userId}`} className="d-none">
+            <li className="nav"><AccountCircleIcon/></li>
           </Link>
-          <Link to="/about">
-            <li className="nav">About us</li>
+          <Link to="/contact">
+            <li className="nav"><CallIcon/></li>
           </Link>
-          <Link to="/register">
-            <li className="nav">Sign-Login</li>
+          <Link to="/login">
+            <li className="nav"><FingerprintIcon/>Login</li>
           </Link>
-          <Link to="/" onClick={handleLogout}>
-            <li className="nav">Logout</li>
+          <Link to="/" onClick={handleLogout} >
+            <li className="nav"><LogoutIcon/></li>
           </Link>
+          {/* <Link to="/profile/update">
+            <li className="nav">update Profile</li>
+          </Link> */}
         </ul>
       </div>
     </Fragment>

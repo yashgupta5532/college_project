@@ -31,8 +31,7 @@ const UpdatePost = ({ postId, image, titled, desc }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await dispatch(updatePost(updatedData, postId));
-    console.log("response", response);
-    if (response && response.success) {
+    if (response?.success) {
       alert.success(response.message);
     }
   };

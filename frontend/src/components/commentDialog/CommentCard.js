@@ -2,9 +2,6 @@ import React from "react";
 import "./CommentCard.css";
 import { Link } from "react-router-dom";
 import { Button, Typography } from "@mui/material";
-import { Delete } from "@mui/icons-material";
-import { useDispatch, useSelector } from "react-redux";
-// import { deleteCommentOnPost } from "../Actions/postAction";
 
 const CommentCard = ({
   userId,

@@ -1,30 +1,31 @@
-import React, { Fragment, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import './Search.css';
-import { searchPost } from '../../Action/PostAction';
+import React, { Fragment, useState } from "react";
+import { useDispatch } from "react-redux";
+import "./Search.css";
+import { searchPost } from "../../Action/PostAction";
+import { Link } from 'react-router-dom';
 
 const Search = () => {
-  const [keyword, setKeyword] = useState('');
+  const [keyword, setKeyword] = useState("");
   const [posts, setPosts] = useState([]);
   const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(keyword)
+      console.log(keyword);
       const response = await dispatch(searchPost(keyword));
-      console.log('response is', response);
-  
-      if (response && response.success) {
+      console.log("response is", response);
+      if (response?.success) {
         setPosts(response.posts);
       } else {
         setPosts([]);
       }
     } catch (error) {
-      console.error('Error in dispatching searchPost:', error);
+      console.error("Error in dispatching searchPost:", error);
     }
   };
-  
+
+  console.log("posts", posts);
 
   return (
     <Fragment>
@@ -42,14 +43,11 @@ const Search = () => {
         </div>
       </div>
       {posts && (
-        <div>
+        <div className="search-results">
           {posts.map((post) => (
-            // Render each post
-            <div key={post._id}>
-              {/* Render post content */}
-              <p>{post.title}|| {post.description}</p>
-              {/* Add more details as needed */}
-            </div>
+            <Link to={`/profile/${post.owner}`} key={post._id}>
+              <p>{post.title}</p>
+            </Link>
           ))}
         </div>
       )}

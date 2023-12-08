@@ -27,26 +27,26 @@ const HomeSlider = () => {
       >
         <div className="slide">
           <img src={img1} alt="img1" />
-          <p className="legend">
+          <p className="legend" style={{fontSize:"17px",backgroundColor:"#756f6f" ,opacity:"0.6"}}>
             "Mess food may be humble, but it has the power to bring people
             together and create lasting bonds."
           </p>
         </div>
         <div className="slide">
           <img src={img2} alt="img1" />
-          <p className="legend">
+          <p className="legend" style={{fontSize:"17px",backgroundColor:"#756f6f" ,opacity:"0.6"}}>
             "In the world of food, the hostel mess is where you'll find
             comfort, flavor, and a taste of home."
           </p>
         </div>
         <div className="slide">
           <img src={img3} alt="img1" />
-          <p className="legend">
+          <p className="legend" style={{fontSize:"17px",backgroundColor:"#756f6f" ,opacity:"0.6"}}>
             "A mess full of friends and delicious food is the recipe for
             unforgettable memories."
           </p>
         </div>
-        <div className="slide">
+        <div className="slide" style={{fontSize:"17px",backgroundColor:"#756f6f" ,opacity:"0.6"}}>
           <img src={img4} alt="img1" />
           <p className="legend">
             "In a hostel mess, every meal is a chance to explore a world of

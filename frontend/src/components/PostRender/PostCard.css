@@ -1,6 +1,7 @@
 .card-container {
     transition: all 0.5s ;
-    margin: 1vmax;
+    margin: auto;
+    place-items: center;
 }
 
 .card-container:hover {
@@ -9,15 +10,16 @@
 }
 .user-post-container{
     border: 1px solid black;
-    max-width: 40vw;
-    margin: 1vmax;
+    /* max-width: 45vw; */
+    width: 500px;
+    margin: 1vmax auto;
 }
 .user-post-header{
     display: flex;
     background-color: orangered;
     padding: 0.5vmax;
     text-decoration: none;
-    /* justify-content: space-around; */
+    justify-content: space-around;
 }
 .user-post-header .user-avatar{
     max-width: 4vmax;
@@ -34,25 +36,24 @@
 .user-post-header .user-name{
     display: flex;
     flex-direction: column;
-    margin-left: 3vmax;
-    align-items: center;
-}
-
-
-.user-post-header .user-name p{
-    padding: 0 1vmax;
-    
+    align-items: self-start;
+    padding-left: 0.5vmax;
 }
 
 .user-post-header .status{
     width: fit-content;
     max-height: 5vh;
     padding: 0.5vmax;
-    margin: 2vmax;
     text-decoration: none;
     font-weight: bolder;
     letter-spacing: 0.25cap;
     color: black;
+    margin: 1vmax;
+    border-radius: 8px;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    align-items: center;
 }
 .user-post-header .Approved{
     background-color: green;
@@ -84,8 +85,8 @@ a{
     
 }
 .posts-container .post-description{
-    /* background-color: green; */
     padding: 1vmax;
+    /* max-width: 20vw; */
     word-wrap: break-word;
 }
 
@@ -105,7 +106,9 @@ a{
     border-radius: 15px;
     padding: 0.5vmax 3vmax;
     background-color: rgba(182, 211, 240, 0.761);
-    font-size: 2vmax;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .posts-container .post:hover{
     background-color: rgba(175, 196, 217, 0.761);
@@ -113,12 +116,15 @@ a{
 }
 .posts-container .post span{
     padding: 0.5vmax;
+    /* font-size: 2.5vmax; */
 }
 
 .renderAllPost{
     display: flex;
     flex-wrap: wrap;
-    margin: 2vmax;
+    /* margin: 2vmax; */
+    margin: auto;
+
 }
 .renderAllPost .no-post h4{
     text-align: center;
@@ -130,9 +136,24 @@ a{
 
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 1050px) {
+    
     .user-post-container {
-        max-width: 400px;
-        margin: 2vmax auto;
+        /* max-width: 400px; */
+        width: 450px;
+        margin: 1.5vmax ;
+    }
+   
+}
+@media screen and (max-width: 750px) {
+    
+    .user-post-container {
+        /* max-width: 400px; */
+        width: 425px;
+        margin: 3.5vmax auto;
+    }
+    .user-info .user-details .college-info .blur-text p{
+        font-size: 3vmax;
+        margin: 1vmax;
     }
 }

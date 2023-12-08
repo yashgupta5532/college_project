@@ -46,7 +46,7 @@ exports.registerUser = async (req, res) => {
       success: true,
       message: "Registered successfully",
       user,
-      token,
+      // token,
     });
   } catch (error) {
     console.log(error);
@@ -242,7 +242,13 @@ exports.updateProfile = async (req, res) => {
       user.email = email;
     }
     if (avatar) {
-      conole.log("we will add cloudinary later");
+      const mycloud = await cloudinary.v2.uploader.upload(avatar, {
+        folder: "avatars",
+      });
+      user.avatar = {
+        public_id: mycloud.public_id,
+        url: mycloud.secure_url,
+      };
     }
     if (myStatus) {
       user.myStatus = myStatus;
@@ -251,6 +257,7 @@ exports.updateProfile = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Profile updated",
+      user,
     });
   } catch (error) {
     console.log(error);

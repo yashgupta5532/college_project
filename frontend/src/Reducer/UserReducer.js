@@ -17,8 +17,18 @@ import {
   FOLLOW_USER_REQUEST,
   FOLLOW_USER_SUCCESS,
   FOLLOW_USER_FAIL,
+  CONTACT_ADMIN_REQUEST,
+  CONTACT_ADMIN_SUCCESS,
+  CONTACT_ADMIN_FAIL,
+  CONTACT_INFO_REQUEST,
+  CONTACT_INFO_SUCCESS,
+  CONTACT_INFO_FAIL,
+  UPDATE_PROFILE_REQUEST,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_FAIL,
   CLEAR_ERRORS,
 } from "../Constants/UserConstant";
+
 
 export const userReducer = (state = { user: [] }, action) => {
   switch (action.type) {
@@ -105,17 +115,27 @@ export const userReducer = (state = { user: [] }, action) => {
 export const userUpdate = (state, action) => {
   switch (action.type) {
     case FOLLOW_USER_REQUEST:
+    case CONTACT_ADMIN_REQUEST:
+    case CONTACT_INFO_REQUEST:
+    case UPDATE_PROFILE_REQUEST:
       return {
         ...state,
         loading: true,
+
       };
     case FOLLOW_USER_SUCCESS:
+    case CONTACT_ADMIN_SUCCESS:
+    case CONTACT_INFO_SUCCESS:
+    case UPDATE_PROFILE_SUCCESS:
       return {
         ...state,
         loading: false,
         user: action.payload,
       };
     case FOLLOW_USER_FAIL:
+    case CONTACT_ADMIN_FAIL:
+    case CONTACT_INFO_FAIL:
+    case UPDATE_PROFILE_FAIL:
       return {
         ...state,
         loading: false,

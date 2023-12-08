@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 import {
     Dialog,
     DialogContent,
@@ -11,7 +11,7 @@ const UpdatePostDialog = ({open,onClose,postId,image,title,description}) => {
     <Fragment>
       <Dialog open={open} onClose={onClose} PaperProps={{ style: { minWidth: '80vw', minHeight: '80vh' } }}>
         <DialogContent>
-          <UpdatePost postId={postId} image={image} titled={title} desc={description}/>
+          <UpdatePost postId={postId} image={image} titled={title} desc={description} />
         </DialogContent>
       </Dialog>
     </Fragment>

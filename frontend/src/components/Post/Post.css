@@ -79,3 +79,33 @@
 .updatedPost-form {
     max-width: 30vw;
 }
+
+@media screen and (max-width:800px) {
+    .new-post{
+        min-height: 60vh;
+        padding: 2vmax;
+    }
+    
+.post-form .form input{
+    padding: 3vmax;
+}
+
+.post-form Button[type="submit"]{
+    padding: 3vmax;
+    width: 30%;
+}
+.post-form .form img{
+    width: 40vw;
+    height: 40vh;
+}
+.post-form .form input::placeholder{
+    font-size: 2vmax;
+}
+
+.post-form input[type="file"]::-webkit-file-upload-button{
+  
+    max-width: 100%;
+    padding: 3vmax;
+    font-size: 2vmax;
+}
+}

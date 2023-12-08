@@ -27,7 +27,7 @@ const Profile = () => {
     const fetchData = async () => {
       try {
         const userResponse = await dispatch(getUserDetails(userId));
-        if (userResponse.success) {
+        if (userResponse?.success) {
           const userData = userResponse.user;
           setUser(userData);
 
@@ -35,7 +35,7 @@ const Profile = () => {
           const postDetails = await Promise.all(
             userData.posts.map(async (postId) => {
               const response = await dispatch(singlePost(postId));
-              return response.post;
+              return response?.post;
             })
           );
           setAllPosts(postDetails);
@@ -64,7 +64,7 @@ const Profile = () => {
   const handleFollow=async()=>{
     const response=await dispatch(followUser(userId))
     setFollowing(!following);
-    if(response.success){
+    if(response?.success){
       alert.success(response.message);
     }
   }

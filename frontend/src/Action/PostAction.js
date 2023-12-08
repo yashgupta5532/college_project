@@ -100,7 +100,7 @@ export const searchPost = (keyword) => async (dispatch) => {
       type: 'SEARCH_POST_REQUEST'
     });
 
-    const {data} = await axios.get(`/api/v1/search/${keyword}`);
+    const {data} = await axios.get(`/api/v1/post/search/${keyword}`);
     console.log("data ",data)
 
     dispatch({
@@ -123,7 +123,6 @@ export const searchPost = (keyword) => async (dispatch) => {
     });
   }
 };
-
 
 export const singlePost = (postId) => async (dispatch) =>{
   try {
@@ -210,8 +209,8 @@ export const deleteUserOwnPost = (postId) => async (dispatch) => {
 export const updatePost = (updatedData,postId) => async (dispatch) => {
   try {
     dispatch({type:UPDATE_POST_REQUEST})
-    const {data}=await axios.put(`/api/v1/post/update-post/${postId}`,{updatedData});
-    console.log(data);
+    const {data}=await axios.put(`/api/v1/post/update-post/${postId}`,updatedData);
+    console.log("data",data);
     dispatch({type:UPDATE_POST_SUCCESS,payload:data.updatedPost})
     return {success:true,message:data.message}
   } catch (error) {

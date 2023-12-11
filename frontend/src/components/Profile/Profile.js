@@ -8,7 +8,7 @@ import postImg from "../images/posts.png";
 import likeImg from "../images/thumb-up.png";
 import userImg from "../images/add-user.png";
 import PostCard from "../PostRender/PostCard";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { followUser, getUserDetails } from "../../Action/UserAction";
 import { singlePost } from "../../Action/PostAction";
 import {useAlert } from "react-alert"

@@ -54,6 +54,7 @@ exports.likeDislike = async (req, res) => {
     res.status(200).json({
       success: true,
       message: `you ${isLiked ? " Disliked " : " Liked"} the post`,
+      post
     });
   } catch (error) {
     res.status(500).json({
@@ -106,19 +107,21 @@ exports.commentOnPost = async (req, res) => {
 exports.updatePost = async (req, res) => {
   try {
     const updatedData = req.body;
-    console.log(updatedData)
-    // const newUpdatedData={
-    //   image:updatedData.title,
-    //   title:"new title",
-    //   description:"new description"
-    // }
+    if(updatedData.images){
+      const myCloud = await cloudinary.v2.uploader.upload(updatedData.images, {
+        folder: "avatars",
+      });
+      updatedData.images={
+        public_id:myCloud.public_id,
+        url:myCloud.secure_url
+      }
+    }   
     const updatedPost = await Post.findByIdAndUpdate(
       req.params.id,
-      {updatedData},
+      updatedData,
       { new: true }
     );
 
-    console.log(updatedPost);
     if (!updatedPost) {
       return res.status(404).json({
         success: false,

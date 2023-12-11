@@ -233,27 +233,21 @@ exports.updatePassword = async (req, res) => {
 
 exports.updateProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id);
-    const { name, email, avatar, myStatus } = req.body;
-    if (name) {
-      user.name = name;
-    }
-    if (email) {
-      user.email = email;
-    }
-    if (avatar) {
-      const mycloud = await cloudinary.v2.uploader.upload(avatar, {
+    const updatedData = req.body;
+
+    if (updatedData.avatar) {
+      const mycloud = await cloudinary.v2.uploader.upload(updatedData.avatar, {
         folder: "avatars",
       });
-      user.avatar = {
+      updatedData.avatar = {
         public_id: mycloud.public_id,
         url: mycloud.secure_url,
       };
     }
-    if (myStatus) {
-      user.myStatus = myStatus;
-    }
-    await user.save();
+
+    const user = await User.findByIdAndUpdate(req.user._id, updatedData, {
+      new: true,
+    });
     res.status(200).json({
       success: true,
       message: "Profile updated",

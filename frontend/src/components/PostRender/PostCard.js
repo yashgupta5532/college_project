@@ -25,7 +25,6 @@ const PostCard = ({ user, post }) => {
   const dispatch = useDispatch();
   const [isLiked, setIsLiked] = useState(false);
   const [isEditPostDialogOpen, setIsEditPostDialogOpen] = useState(false);
-  // const [updatedPost, setUpdatedPost] = useState();
   const [isCommentDialogOpen, setIsCommentDialogOpen] = useState(false);
   const alert = useAlert();
   function formatDate(dateString) {
@@ -40,8 +39,7 @@ const PostCard = ({ user, post }) => {
         setIsLiked(!isLiked);
         alert.success(response.message);
       }
-      // const response = await dispatch(singlePost(post._id));
-      // setUpdatedPost(response.post);
+      // await dispatch(singlePost(post?._id));
     } catch (error) {
       alert.error("Failed to like/dislike post");
     }

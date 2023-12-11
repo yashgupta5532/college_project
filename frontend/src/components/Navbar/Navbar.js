@@ -42,10 +42,10 @@ const Navbar = () => {
           <Link to="/search" className="d-none">
             <li className="nav"><SearchIcon/></li>
           </Link>
-          <Link to={`/profile/${userId}`} className="d-none">
+          {/* <Link to={`/profile/${userId}`} className="d-none">
             <li className="nav"><AccountCircleIcon/></li>
-          </Link>
-          <Link to="/contact">
+          </Link> */}
+          <Link to="/contact" >
             <li className="nav"><CallIcon/></li>
           </Link>
           <Link to="/login">
@@ -54,9 +54,9 @@ const Navbar = () => {
           <Link to="/" onClick={handleLogout} >
             <li className="nav"><LogoutIcon/></li>
           </Link>
-          {/* <Link to="/profile/update">
-            <li className="nav">update Profile</li>
-          </Link> */}
+          <Link to="/profile/update">
+            <li className="nav"><AccountCircleIcon/></li>
+          </Link>
         </ul>
       </div>
     </Fragment>

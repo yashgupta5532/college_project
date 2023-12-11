@@ -141,7 +141,7 @@ export const likeDislikePost = (postId) => async (dispatch) => {
     dispatch({type:LIKE_POST_REQUEST})
     const {data} = await axios.post(`/api/v1/post/like-dislike/${postId}`);
     dispatch({type:LIKE_POST_SUCCESS,payload:data})
-    return {success:true,message:data.message};
+    return {success:true,message:data.message,post:data.post};
   } catch (error) {
     dispatch({type:LIKE_POST_FAIL,payload:error.response.data.message})
   }
@@ -210,7 +210,6 @@ export const updatePost = (updatedData,postId) => async (dispatch) => {
   try {
     dispatch({type:UPDATE_POST_REQUEST})
     const {data}=await axios.put(`/api/v1/post/update-post/${postId}`,updatedData);
-    console.log("data",data);
     dispatch({type:UPDATE_POST_SUCCESS,payload:data.updatedPost})
     return {success:true,message:data.message}
   } catch (error) {

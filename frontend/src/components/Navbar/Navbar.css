@@ -18,7 +18,7 @@
     border-radius: 10px;
 }
 
-@media screen and (max-width:600px) {
+@media screen and (max-width:620px) {
     .nav-container .d-none{
         display: none;
     }

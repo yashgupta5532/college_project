@@ -31,6 +31,6 @@ const contact = require("./routes/ContactRoutes");
 //using routes
 app.use("/api/v1/user", user);
 app.use("/api/v1/post", post);
-app.use("/api/v1/contact",contact);
+app.use("/api/v1/contact", contact);
 
 module.exports = app;

@@ -19,7 +19,6 @@ const UpdateProfile = () => {
   const [updatedAvatar, setUpdatedAvatar] = useState(avatar.url);
   const [updatedStatus, setUpdatedStatus] = useState(myStatus);
 
-  console.log(name, email, avatar, myStatus);
   const dispatch = useDispatch();
   const alert = useAlert();
   const handleAvatarChange = (e) => {
@@ -33,11 +32,14 @@ const UpdateProfile = () => {
       }
     };
   };
+  const updatedData = {};
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await dispatch(
-      updateProfile(updatedName, updatedEmail, updatedAvatar, updatedStatus)
-    );
+    if (updatedName !== name) updatedData.name = updatedName;
+    if (updatedEmail !== email) updatedData.email = updatedEmail;
+    if (updatedAvatar !== avatar.url) updatedData.avatar = updatedAvatar;
+    if (updatedStatus !== myStatus) updatedData.status = updatedStatus;
+    const response = await dispatch(updateProfile(updatedData));
     if (response?.success) {
       alert.success(response.message);
       setUpdatedName(response.user.name);

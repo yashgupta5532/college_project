@@ -11,7 +11,7 @@ import { clearErrors, logout } from "../../Action/UserAction";
 const Header = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
-  const { error} = useSelector((state) => state.user);
+  const { error,userId} = useSelector((state) => state.user);
   const handleLogout=async()=>{
    const response= await dispatch(logout())
    if(response.success){
@@ -64,7 +64,7 @@ const Header = () => {
     profileIconMargin: "1vmax",
     searchIconUrl: "/search",
     cartIconUrl: "/logout",
-    profileIconUrl: "/profile",
+    profileIconUrl: `/profile/${userId}`,
     searchIconColorHover: "blue",
     cartIconColorHover: "blue",
     profileIconColorHover: "blue",

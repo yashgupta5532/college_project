@@ -11,7 +11,7 @@ const UpdatePost = ({ postId, image, titled, desc }) => {
   const [title, setTitle] = useState(titled);
   const [description, setDescription] = useState(desc);
   const dispatch = useDispatch();
-  const { loading} = useSelector((state) => state.postAdmin);
+  const { loading } = useSelector((state) => state.postAdmin);
   const alert = useAlert();
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -23,16 +23,27 @@ const UpdatePost = ({ postId, image, titled, desc }) => {
       }
     };
   };
-  const updatedData = {
-    images,
-    title,
-    description,
-  };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await dispatch(updatePost(updatedData, postId));
-    if (response?.success) {
-      alert.success(response.message);
+    const updatedData = {};
+    if (title !== titled) {
+      updatedData.title = title;
+    }
+    if (images !== image) {
+      updatedData.images = images;
+    }
+    if (description !== desc) {
+      updatedData.description = description;
+    }
+    if (Object.keys(updatedData).length > 0) {
+      const response = await dispatch(updatePost(updatedData, postId));
+      
+      if (response?.success) {
+        alert.success(response.message);
+      }
+    } else {
+      alert.info("No changes made.");
     }
   };
   return (
@@ -71,8 +82,8 @@ const UpdatePost = ({ postId, image, titled, desc }) => {
                   placeholder="Description here"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  rows={4} 
-                  cols={50} 
+                  rows={4}
+                  cols={50}
                 />
               </div>
               <Button type="submit">Update</Button>

@@ -172,15 +172,15 @@ export const updateProfile = (updatedData) => async (dispatch) => {
     dispatch({ type: UPDATE_PROFILE_REQUEST });
     const { data } = await axios.put(
       `/api/v1/user/profile/update`,
-      updatedData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
-      }
+      updatedData
+      // {
+      //   headers: {
+      //     "Content-Type": "multipart/form-data"
+      //   }
+      // }
     );
     dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: data.user });
-    return { success: true, message: data.message };
+    return { success: true, message: data.message,user:data.user };
   } catch (error) {
     dispatch({
       type: UPDATE_PROFILE_FAIL,
